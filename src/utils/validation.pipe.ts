@@ -16,23 +16,13 @@ export class ValidationPipe implements PipeTransform<any> {
     const object = plainToInstance(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
-      const formattedErrors = errors.map((e) => {
+      const formattedErrors = {};
+      errors.forEach((e) => {
         const messages = Object.values(e.constraints);
-        const formattedMessages = [];
-        messages.forEach((message) => {
-          if (message.includes(',')) {
-            // * the custom validation classes returns a comma separated string so we need to divide that string into an ordered list of substrings and then push each error into the property errors array
-            const splittedMessages = message.split(',');
-            splittedMessages.forEach((message) =>
-              formattedMessages.push(message),
-            );
-          } else {
-            formattedMessages.push(message);
-          }
-        });
-        return {
-          [e.property]: formattedMessages,
-        };
+        formattedErrors[e.property] = messages.flatMap((message) =>
+          // * the custom validation classes returns a comma separated string so we need to divide that string into an ordered list of substrings and assign it to the property
+          message.split(','),
+        );
       });
       throw new BadRequestException({
         error: { code: 'invalid_body', detail: formattedErrors },
