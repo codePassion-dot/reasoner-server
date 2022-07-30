@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
 import * as bcrypt from 'bcrypt';
+import { User } from 'src/users/user.entity';
 
 const response = {
   error: null,

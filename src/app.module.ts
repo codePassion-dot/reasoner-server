@@ -5,8 +5,8 @@ import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { User } from './user/user.entity';
-import { UserModule } from './user/user.module';
+import { User } from './users/user.entity';
+import { UserModule } from './users/users.module';
 
 @Module({
   imports: [
