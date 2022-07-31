@@ -5,6 +5,7 @@ import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { RefreshToken } from './auth/refreshToken.entity';
 import { User } from './users/user.entity';
 import { UserModule } from './users/users.module';
 
@@ -31,7 +32,7 @@ import { UserModule } from './users/users.module';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, RefreshToken],
         synchronize: true,
       }),
     }),
