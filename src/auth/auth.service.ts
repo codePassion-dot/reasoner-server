@@ -101,6 +101,7 @@ export class AuthService {
     const foundUser = await this.usersService.findByRefreshToken(
       oldRefreshToken,
     );
+
     // Detected refresh token reuse we should remove all existing refresh tokens
     if (!foundUser) {
       try {
@@ -113,6 +114,13 @@ export class AuthService {
         await this.refreshTokensRepository.delete({
           user: hackedUser,
         });
+        return {
+          error: {
+            code: 'refresh_token_hacked',
+            detail: 'refresh token was hacked',
+          },
+          resource: null,
+        };
       } catch (err) {
         throw new UnauthorizedException({
           error: {
@@ -128,7 +136,10 @@ export class AuthService {
         refreshToken: oldRefreshToken,
       });
       try {
-        const decoded = await this.jwtService.verify(oldRefreshToken, {
+        const decoded = this.jwtService.verify<{
+          sub: number;
+          email: string;
+        }>(oldRefreshToken, {
           secret: this.configService.get('JWT_REFRESH_SECRET'),
         });
         const payload = { email: decoded.email, sub: decoded.sub };

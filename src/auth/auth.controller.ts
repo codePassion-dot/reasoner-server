@@ -53,9 +53,13 @@ export class AuthController {
       sameSite: 'none',
       secure: true,
     });
-    const { resource } = await this.authService.refreshToken(
+    const { resource, error } = await this.authService.refreshToken(
       req.cookies.refreshToken,
     );
+    if (error) {
+      response.status(401).json({ error });
+      return;
+    }
     const { refreshToken, ...rest } = resource;
     response.cookie('refreshToken', refreshToken, {
       httpOnly: true,
