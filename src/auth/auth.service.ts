@@ -7,10 +7,12 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { SendgridService } from 'src/sendgrid/sendgrid.service';
 import { User } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { RefreshToken } from './refreshToken.entity';
 import { RefreshTokensRepository } from './refreshTokens.repository';
+import * as SendGrid from '@sendgrid/mail';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +20,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private sendgridService: SendgridService,
     @InjectRepository(RefreshToken)
     private refreshTokensRepository: RefreshTokensRepository,
   ) {}
@@ -174,5 +177,44 @@ export class AuthService {
         });
       }
     }
+  }
+  async recoverPassword(email: string): Promise<{
+    error: null | { code: string; detail: string };
+    statusCode: number;
+  }> {
+    const user = await this.usersService.findOneBy({ email });
+    if (!user) {
+      throw new BadRequestException({
+        error: {
+          code: 'email_not_found',
+          detail: 'email not found',
+        },
+      });
+    }
+    const mail: SendGrid.MailDataRequired = {
+      to: email,
+      from: 'hrivera@unal.edu.co',
+      subject: 'Password recovery',
+      templateId: 'd-7a7e65ab6bf44627bea5758e97fbb969',
+      personalizations: [
+        {
+          to: [
+            {
+              email,
+            },
+          ],
+          dynamicTemplateData: {
+            link: `${this.configService.get(
+              'FRONTEND_URL',
+            )}/reset-password?user=${user.id}`,
+          },
+        },
+      ],
+    };
+    const { error, statusCode } = await this.sendgridService.send(mail);
+    return {
+      error,
+      statusCode,
+    };
   }
 }

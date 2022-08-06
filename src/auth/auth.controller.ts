@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Request,
   Res,
   UseGuards,
@@ -68,5 +69,14 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 24 * 30,
     });
     response.json({ error: null, resource: rest });
+  }
+  @Get('recover-password')
+  async recoverPassword(
+    @Query('email') email: string,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<{ error: { code: string; detail: string } }> {
+    const { statusCode, error } = await this.authService.recoverPassword(email);
+    response.status(statusCode).json(error ?? { error: null });
+    return;
   }
 }
