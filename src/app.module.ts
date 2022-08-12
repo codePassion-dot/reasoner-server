@@ -5,8 +5,11 @@ import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { User } from './user/user.entity';
-import { UserModule } from './user/user.module';
+import { RefreshToken } from './auth/refreshToken.entity';
+import { User } from './users/user.entity';
+import { UserModule } from './users/users.module';
+import { SendgridService } from './sendgrid/sendgrid.service';
+import { SendgridModule } from './sendgrid/sendgrid.module';
 
 @Module({
   imports: [
@@ -31,13 +34,14 @@ import { UserModule } from './user/user.module';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, RefreshToken],
         synchronize: true,
       }),
     }),
     UserModule,
+    SendgridModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SendgridService],
 })
 export class AppModule {}

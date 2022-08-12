@@ -1,11 +1,23 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from 'src/user/user.module';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SendgridModule } from 'src/sendgrid/sendgrid.module';
+import { UserModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { LocalStrategy } from './local.strategy';
+import { RefreshToken } from './refreshToken.entity';
 
 @Module({
-  imports: [UserModule],
+  imports: [
+    UserModule,
+    PassportModule,
+    JwtModule.register({}),
+    TypeOrmModule.forFeature([RefreshToken]),
+    SendgridModule,
+  ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, LocalStrategy],
 })
 export class AuthModule {}
