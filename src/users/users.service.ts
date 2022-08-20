@@ -9,20 +9,19 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  async findOneBy(property: FindOptionsWhere<User>): Promise<User | null> {
+  async findOneBy(
+    property: FindOptionsWhere<User> | FindOptionsWhere<User>[],
+  ): Promise<User | null> {
     return this.usersRepository.findOneBy(property);
+  }
+
+  createQueryBuilder(alias: string) {
+    return this.usersRepository.createQueryBuilder(alias);
   }
 
   async findOne(options: FindOneOptions<User>): Promise<User | null> {
     return this.usersRepository.findOne(options);
   }
-  async findByRefreshToken(refreshToken: string): Promise<User | null> {
-    return this.usersRepository.findOne({
-      where: { refreshTokens: { refreshToken } },
-      relations: ['refreshTokens'],
-    });
-  }
-
   create(payload: { email: string; password: string }): User {
     return this.usersRepository.create(payload);
   }
