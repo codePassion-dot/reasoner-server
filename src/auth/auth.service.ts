@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,6 +20,7 @@ export class AuthService {
     @InjectRepository(RefreshToken)
     private refreshTokensRepository: RefreshTokensRepository,
   ) {}
+
   async validateUser(
     email: string,
     pass: string,
@@ -36,6 +33,7 @@ export class AuthService {
     }
     return null;
   }
+
   async signUp({
     email,
     password,
@@ -64,6 +62,35 @@ export class AuthService {
     await this.usersService.save(newUser);
     return { resource: { id: newUser.id, email: newUser.email } };
   }
+
+  async createNewRefreshToken(user: User): Promise<string> {
+    const refreshTokenPayload = {
+      sub: user.id,
+    };
+    const newRefreshToken = this.jwtService.sign(refreshTokenPayload, {
+      expiresIn: this.configService.get('JWT_REFRESH_EXPIRATION_TIME'),
+      secret: this.configService.get('JWT_REFRESH_SECRET'),
+    });
+    const salt = await bcrypt.genSalt();
+    const hashedToken = await bcrypt.hash(newRefreshToken, salt);
+    const newRefreshTokenEntity = this.refreshTokensRepository.create({
+      user,
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      refreshToken: hashedToken,
+    });
+    await this.refreshTokensRepository.save(newRefreshTokenEntity);
+    return newRefreshToken;
+  }
+
+  createNewAccessToken(user: User): string {
+    const accessTokenPayload = { email: user.email, sub: user.id };
+    const newAccessToken = this.jwtService.sign(accessTokenPayload, {
+      expiresIn: this.configService.get('JWT_ACCESS_EXPIRATION_TIME'),
+      secret: this.configService.get('JWT_ACCESS_SECRET'),
+    });
+    return newAccessToken;
+  }
+
   async signIn(user: User): Promise<{
     error: null | { code: string; detail: string };
     resource: {
@@ -71,21 +98,8 @@ export class AuthService {
       refreshToken: string;
     };
   }> {
-    const payload = { email: user.email, sub: user.id };
-    const newRefreshToken = this.jwtService.sign(payload, {
-      expiresIn: this.configService.get('JWT_REFRESH_EXPIRATION_TIME'),
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
-    });
-    const newAccessToken = this.jwtService.sign(payload, {
-      expiresIn: this.configService.get('JWT_ACCESS_EXPIRATION_TIME'),
-      secret: this.configService.get('JWT_ACCESS_SECRET'),
-    });
-    const newRefreshTokenEntity = this.refreshTokensRepository.create({
-      user,
-      refreshToken: newRefreshToken,
-      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    });
-    await this.refreshTokensRepository.save(newRefreshTokenEntity);
+    const newAccessToken = this.createNewAccessToken(user);
+    const newRefreshToken = await this.createNewRefreshToken(user);
     return {
       error: null,
       resource: {
@@ -94,90 +108,31 @@ export class AuthService {
       },
     };
   }
-  async refreshToken(oldRefreshToken: string): Promise<{
-    error: null | { code: string; detail: string };
+
+  async refreshToken(
+    userId: string,
+    refreshToken: string,
+  ): Promise<{
     resource: {
       accessToken: string;
       refreshToken: string;
     };
   }> {
-    const foundUser = await this.usersService.findByRefreshToken(
-      oldRefreshToken,
-    );
-
-    // Detected refresh token reuse we should remove all existing refresh tokens
-    if (!foundUser) {
-      try {
-        const decoded = this.jwtService.verify(oldRefreshToken, {
-          secret: this.configService.get('JWT_REFRESH_SECRET'),
-        });
-        const hackedUser = await this.usersService.findOneBy({
-          id: decoded.sub,
-        });
-        await this.refreshTokensRepository.delete({
-          user: hackedUser,
-        });
-        return {
-          error: {
-            code: 'refresh_token_hacked',
-            detail: 'refresh token was hacked',
-          },
-          resource: null,
-        };
-      } catch (err) {
-        throw new UnauthorizedException({
-          error: {
-            code: 'refresh_token_invalid',
-            detail: 'refresh token invalid',
-          },
-          resource: null,
-        });
-      }
-    } else {
-      // as we are using RTR, we must delete the specific refreshToken from the database
-      await this.refreshTokensRepository.delete({
-        refreshToken: oldRefreshToken,
-      });
-      try {
-        const decoded = this.jwtService.verify<{
-          sub: number;
-          email: string;
-        }>(oldRefreshToken, {
-          secret: this.configService.get('JWT_REFRESH_SECRET'),
-        });
-        const payload = { email: decoded.email, sub: decoded.sub };
-        const newRefreshToken = this.jwtService.sign(payload, {
-          expiresIn: this.configService.get('JWT_REFRESH_EXPIRATION_TIME'),
-          secret: this.configService.get('JWT_REFRESH_SECRET'),
-        });
-        const newRefreshTokenEntity = this.refreshTokensRepository.create({
-          refreshToken: newRefreshToken,
-          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          user: foundUser,
-        });
-        await this.refreshTokensRepository.save(newRefreshTokenEntity);
-        const newAccessToken = this.jwtService.sign(payload, {
-          expiresIn: this.configService.get('JWT_ACCESS_EXPIRATION_TIME'),
-          secret: this.configService.get('JWT_ACCESS_SECRET'),
-        });
-        return {
-          error: null,
-          resource: {
-            accessToken: newAccessToken,
-            refreshToken: newRefreshToken,
-          },
-        };
-      } catch (err) {
-        throw new UnauthorizedException({
-          error: {
-            code: 'refresh_token_expired',
-            detail: 'refresh token expired, you should sign in again',
-          },
-          resource: null,
-        });
-      }
-    }
+    // as we are using RTR, we must delete the specific refreshToken from the database
+    await this.refreshTokensRepository.delete({
+      refreshToken,
+    });
+    const user = await this.usersService.findOneBy({ id: userId });
+    const newAccessToken = this.createNewAccessToken(user);
+    const newRefreshToken = await this.createNewRefreshToken(user);
+    return {
+      resource: {
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+      },
+    };
   }
+
   async recoverPassword(email: string): Promise<{
     error: null | { code: string; detail: string };
     statusCode: number;
@@ -186,11 +141,20 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException({
         error: {
-          code: 'email_not_found',
-          detail: 'email not found',
+          code: 'user_not_found',
+          detail: 'user not found',
         },
       });
     }
+    const resetTokenPayload = { sub: user.id };
+    const resetToken = this.jwtService.sign(resetTokenPayload, {
+      secret: this.configService.get('JWT_RESET_PASSWORD_SECRET'),
+      expiresIn: this.configService.get('JWT_RESET_PASSWORD_EXPIRATION_TIME'),
+    });
+    const salt = await bcrypt.genSalt();
+    const hashedResetToken = await bcrypt.hash(resetToken, salt);
+    user.resetPasswordToken = hashedResetToken;
+    await this.usersService.save(user); // update if the user exists
     const mail: SendGrid.MailDataRequired = {
       to: email,
       from: 'hrivera@unal.edu.co',
@@ -206,7 +170,7 @@ export class AuthService {
           dynamicTemplateData: {
             link: `${this.configService.get(
               'FRONTEND_URL',
-            )}/reset-password?user=${user.id}`,
+            )}/reset-password?token=${resetToken}`,
           },
         },
       ],
@@ -215,6 +179,49 @@ export class AuthService {
     return {
       error,
       statusCode,
+    };
+  }
+
+  async resetPassword(
+    userId: string,
+    newPassword: string,
+    clientResetPasswordToken: string,
+  ): Promise<{
+    resource: Partial<User>;
+  }> {
+    const user = await this.usersService.findOneBy({ id: userId });
+    // get out of here motherfucker
+    if (!user) {
+      throw new BadRequestException({
+        error: {
+          code: 'user_not_found',
+          detail: 'user not found',
+        },
+        resource: null,
+      });
+    }
+    if (
+      !(await bcrypt.compare(clientResetPasswordToken, user.resetPasswordToken))
+    ) {
+      throw new BadRequestException({
+        error: {
+          code: 'reset_password_token_invalid_payload',
+          detail: 'reset password token invalid payload',
+        },
+        resource: null,
+      });
+    }
+    // create new hash for the new password
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+
+    user.resetPasswordToken = '';
+    await this.usersService.save(user);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...rest } = user;
+    return {
+      resource: rest,
     };
   }
 }

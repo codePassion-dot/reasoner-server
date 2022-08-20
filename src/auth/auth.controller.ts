@@ -2,16 +2,18 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   Query,
   Request,
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request as RequestType } from 'express';
 import { User } from 'src/users/user.entity';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './create-user.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
@@ -27,9 +29,13 @@ export class AuthController {
 
     return { error: null, resource };
   }
+
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(@Request() req, @Res({ passthrough: true }) response: Response) {
+  async signIn(
+    @Request() req: RequestType & { user: User },
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const { resource } = await this.authService.signIn(req.user);
     const { refreshToken, ...rest } = resource;
     response.cookie('refreshToken', refreshToken, {
@@ -40,27 +46,32 @@ export class AuthController {
     });
     response.json({ error: null, resource: rest });
   }
+
+  @UseGuards(JwtAuthGuard)
   @Get('refresh-token')
   async refreshToken(
-    @Request() req,
+    @Request()
+    req: RequestType & {
+      user: { userId: string; clientRefreshToken: string };
+    } & {
+      error: { code: string; detail: string };
+    },
     @Res({ passthrough: true }) response: Response,
   ) {
-    if (!req.cookies.refreshToken) {
-      response.status(401).json({ error: { code: 'refresh_token_missing' } });
-      return;
-    }
+    const { user } = req;
     response.clearCookie('refreshToken', {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
     });
-    const { resource, error } = await this.authService.refreshToken(
-      req.cookies.refreshToken,
-    );
-    if (error) {
-      response.status(401).json({ error });
-      return;
+    if (req.error) {
+      // if reuse detected
+      return response.status(401).json(req.error);
     }
+    const { resource } = await this.authService.refreshToken(
+      user.userId,
+      user.clientRefreshToken,
+    );
     const { refreshToken, ...rest } = resource;
     response.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -68,8 +79,9 @@ export class AuthController {
       sameSite: 'strict',
       maxAge: 1000 * 60 * 60 * 24 * 30,
     });
-    response.json({ error: null, resource: rest });
+    response.status(202).json({ error: null, resource: rest });
   }
+
   @Get('recover-password')
   async recoverPassword(
     @Query('email') email: string,
@@ -78,5 +90,24 @@ export class AuthController {
     const { statusCode, error } = await this.authService.recoverPassword(email);
     response.status(statusCode).json(error ?? { error: null });
     return;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('reset-password')
+  async resetPassword(
+    @Body('password') password: string,
+    @Query('token') resetPasswordToken: string,
+    @Request()
+    req: RequestType & { user: { userId: string; resetPasswordToken: string } },
+  ): Promise<{
+    resource: Partial<User> | null;
+  }> {
+    const { user } = req;
+    const { resource } = await this.authService.resetPassword(
+      user.userId,
+      password,
+      resetPasswordToken,
+    );
+    return { resource };
   }
 }
