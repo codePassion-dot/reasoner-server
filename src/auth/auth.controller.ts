@@ -9,6 +9,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Response, Request as RequestType } from 'express';
 import { User } from 'src/users/user.entity';
 import { AuthService } from './auth.service';
@@ -18,7 +19,10 @@ import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
 
   @Post('sign-up')
   async signUp(@Body() body: CreateUserDto): Promise<{
@@ -42,9 +46,10 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
+      domain: this.configService.get('FRONTEND_DOMAIN'),
       maxAge: 1000 * 60 * 60 * 24 * 30,
     });
-    response.json({ error: null, resource: rest });
+    return { error: null, resource: rest };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -77,6 +82,7 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
+      domain: this.configService.get('FRONTEND_DOMAIN'),
       maxAge: 1000 * 60 * 60 * 24 * 30,
     });
     response.status(202).json({ error: null, resource: rest });
