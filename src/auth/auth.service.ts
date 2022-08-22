@@ -136,6 +136,7 @@ export class AuthService {
   async recoverPassword(email: string): Promise<{
     error: null | { code: string; detail: string };
     statusCode: number;
+    resource: Partial<SendGrid.MailDataRequired>;
   }> {
     const user = await this.usersService.findOneBy({ email });
     if (!user) {
@@ -170,15 +171,18 @@ export class AuthService {
           dynamicTemplateData: {
             link: `${this.configService.get(
               'FRONTEND_URL',
-            )}/reset-password?token=${resetToken}`,
+            )}/auth/password/reset?token=${resetToken}`,
           },
         },
       ],
     };
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { templateId, personalizations, ...resource } = mail;
     const { error, statusCode } = await this.sendgridService.send(mail);
     return {
       error,
       statusCode,
+      resource,
     };
   }
 

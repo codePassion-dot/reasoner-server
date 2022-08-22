@@ -10,12 +10,42 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request as RequestType } from 'express';
 import { User } from 'src/users/user.entity';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './create-user.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
+import * as SendGrid from '@sendgrid/mail';
+import {
+  refreshTokenDescription,
+  refreshTokenSuccessfulResponse,
+  refreshTokenUnauthorizedResponse,
+} from './swagger/refresh-token';
+import {
+  signInCorrectPayload,
+  signInDescription,
+  signInSuccessfulResponse,
+  signInUnauthorizedResponse,
+} from './swagger/sign-in';
+import {
+  signUpBadRequestResponse,
+  signUpCorrectPayload,
+  signUpDescription,
+  signUpSuccessfulResponse,
+} from './swagger/sign-up';
+import {
+  recovePasswordDescription,
+  recoverPasswordBadRequest,
+  recoverPasswordSuccessfulResponse,
+} from './swagger/recover-password';
+import {
+  resetPasswordCorrectPayload,
+  resetPasswordDescription,
+  resetPasswordSuccessfulResponse,
+  resetPasswordUnauthorizedResponse,
+} from './swagger/reset-password';
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +54,10 @@ export class AuthController {
     private configService: ConfigService,
   ) {}
 
+  @ApiOperation(signUpDescription)
+  @ApiResponse(signUpSuccessfulResponse)
+  @ApiResponse(signUpBadRequestResponse)
+  @ApiBody(signUpCorrectPayload)
   @Post('sign-up')
   async signUp(@Body() body: CreateUserDto): Promise<{
     error: { code: string; detail: string };
@@ -34,6 +68,10 @@ export class AuthController {
     return { error: null, resource };
   }
 
+  @ApiOperation(signInDescription)
+  @ApiResponse(signInSuccessfulResponse)
+  @ApiResponse(signInUnauthorizedResponse)
+  @ApiBody(signInCorrectPayload)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
   async signIn(
@@ -52,6 +90,9 @@ export class AuthController {
     return { error: null, resource: rest };
   }
 
+  @ApiOperation(refreshTokenDescription)
+  @ApiResponse(refreshTokenSuccessfulResponse)
+  @ApiResponse(refreshTokenUnauthorizedResponse)
   @UseGuards(JwtAuthGuard)
   @Get('refresh-token')
   async refreshToken(
@@ -88,16 +129,27 @@ export class AuthController {
     response.status(202).json({ error: null, resource: rest });
   }
 
+  @ApiOperation(recovePasswordDescription)
+  @ApiResponse(recoverPasswordSuccessfulResponse)
+  @ApiResponse(recoverPasswordBadRequest)
   @Get('recover-password')
   async recoverPassword(
     @Query('email') email: string,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<{ error: { code: string; detail: string } }> {
-    const { statusCode, error } = await this.authService.recoverPassword(email);
-    response.status(statusCode).json(error ?? { error: null });
+    @Res() response: Response,
+  ): Promise<{
+    error: { code: string; detail: string } | null;
+    resource: SendGrid.MailDataRequired;
+  }> {
+    const { statusCode, error, resource } =
+      await this.authService.recoverPassword(email);
+    response.status(statusCode).json(error ?? resource);
     return;
   }
 
+  @ApiOperation(resetPasswordDescription)
+  @ApiResponse(resetPasswordSuccessfulResponse)
+  @ApiResponse(resetPasswordUnauthorizedResponse)
+  @ApiBody(resetPasswordCorrectPayload)
   @UseGuards(JwtAuthGuard)
   @Patch('reset-password')
   async resetPassword(
