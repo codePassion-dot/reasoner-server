@@ -19,7 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "doc": "npx compodoc -p tsconfig.doc.json -n \"Reasoner documentation\""
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -46,6 +47,7 @@
     "typeorm": "^0.3.7"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.19",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^9.0.3",
@@ -102,6 +104,6 @@
     }
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "./src/**/*": "prettier --write --ignore-unknown"
   }
 }
