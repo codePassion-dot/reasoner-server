@@ -1,5 +1,7 @@
 import { RefreshToken } from 'src/auth/refreshToken.entity';
+import { Problem } from 'src/problem/problem.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Connection } from './connection.entity';
 
 @Entity()
 export class User {
@@ -13,4 +15,8 @@ export class User {
   refreshTokens: RefreshToken[];
   @Column({ default: '' })
   resetPasswordToken: string;
+  @OneToMany(() => Problem, (problem) => problem.user)
+  problems: Problem[];
+  @OneToMany(() => Connection, (connection) => connection.user)
+  connections: Connection[];
 }

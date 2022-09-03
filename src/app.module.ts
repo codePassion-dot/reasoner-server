@@ -10,6 +10,11 @@ import { User } from './users/user.entity';
 import { UserModule } from './users/users.module';
 import { SendgridService } from './sendgrid/sendgrid.service';
 import { SendgridModule } from './sendgrid/sendgrid.module';
+import { DatabaseModule } from './database/database.module';
+import { ParameterizerModule } from './parameterizer/parameterizer.module';
+import { ProblemModule } from './problem/problem.module';
+import { Problem } from './problem/problem.entity';
+import { Connection } from './users/connection.entity';
 
 @Module({
   imports: [
@@ -34,12 +39,16 @@ import { SendgridModule } from './sendgrid/sendgrid.module';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken],
+        entities: [User, RefreshToken, Connection, Problem],
         synchronize: true,
+        autoLoadEntities: true,
       }),
     }),
     UserModule,
     SendgridModule,
+    DatabaseModule,
+    ParameterizerModule,
+    ProblemModule,
   ],
   controllers: [AppController],
   providers: [AppService, SendgridService],

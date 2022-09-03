@@ -4,6 +4,7 @@ import { JsonWebTokenError } from 'jsonwebtoken';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard([
+  'jwt',
   'jwt-reset-password',
   'jwt-refresh-token',
 ]) {
