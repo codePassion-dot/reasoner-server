@@ -1,15 +1,15 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateConnectionOptionsDto } from './dtos/create-connection-options.dto';
 import { Request as RequestType } from 'express';
 import { ParameterizerService } from './parameterizer.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('parameterizer')
 export class ParameterizerController {
   constructor(private readonly parameterizerService: ParameterizerService) {}
 
   @Post('create-connection')
-  @UseGuards(JwtAuthGuard)
   async saveConnectionOptions(
     @Body() body: CreateConnectionOptionsDto,
     @Request()

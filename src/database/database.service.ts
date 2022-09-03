@@ -8,7 +8,7 @@ export class DatabaseService {
 
   async getDatabaseInstance(
     options: Partial<ConnectionOptions>,
-  ): Promise<{ resource: Client; error: { code: string; message: string } }> {
+  ): Promise<{ resource: Client; error: { code: string; detail: string } }> {
     const { username, port, ...rest } = options;
     const client = new Client({ ...rest, user: username, port: Number(port) });
     try {
@@ -17,7 +17,7 @@ export class DatabaseService {
     } catch (err) {
       return {
         resource: null,
-        error: { code: 'connection_refused', message: 'Connection refused' },
+        error: { code: 'connection_refused', detail: 'Connection refused' },
       };
     }
   }

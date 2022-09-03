@@ -6,20 +6,10 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 export class Problem {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column()
-  host: string;
-  @Column()
-  port: number;
-  @Column()
-  database: string;
-  @Column()
-  username: string;
-  @Column()
-  password: string;
-  @Column()
-  ssl: boolean;
-  @Column()
-  current: boolean;
+  @Column({ nullable: true })
+  name: string;
+  @Column({ default: true })
+  draft: boolean;
   @ManyToOne(() => Connection, (connection) => connection.problems)
   connection: Connection;
   @ManyToOne(() => User, (user) => user.problems)

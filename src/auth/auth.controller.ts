@@ -15,7 +15,7 @@ import { Response, Request as RequestType } from 'express';
 import { User } from 'src/users/user.entity';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './create-user.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtRefreshAuthGuard, JwtResetAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 import * as SendGrid from '@sendgrid/mail';
 import {
@@ -93,7 +93,7 @@ export class AuthController {
   @ApiOperation(refreshTokenDescription)
   @ApiResponse(refreshTokenSuccessfulResponse)
   @ApiResponse(refreshTokenUnauthorizedResponse)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtRefreshAuthGuard)
   @Get('refresh-token')
   async refreshToken(
     @Request()
@@ -150,7 +150,7 @@ export class AuthController {
   @ApiResponse(resetPasswordSuccessfulResponse)
   @ApiResponse(resetPasswordUnauthorizedResponse)
   @ApiBody(resetPasswordCorrectPayload)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtResetAuthGuard)
   @Patch('reset-password')
   async resetPassword(
     @Body('password') password: string,

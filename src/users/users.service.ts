@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DatabaseService } from 'src/database/database.service';
+import { ProblemService } from 'src/problem/problem.service';
 import { FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
 import { ConnectionOptions } from './connection-options.interface';
 import { Connection } from './connection.entity';
@@ -13,6 +14,7 @@ export class UsersService {
     @InjectRepository(Connection)
     private connectionsRepository: Repository<Connection>,
     private databasesService: DatabaseService,
+    private problemsService: ProblemService,
   ) {}
 
   async findOneBy(
@@ -53,7 +55,17 @@ export class UsersService {
   async createConnection(
     databaseMetaData: Partial<ConnectionOptions>,
     userId: string,
-  ): Promise<any> {
+  ): Promise<{
+    resource: {
+      connection: Connection;
+      problem: {
+        id: string;
+        connection: Partial<Connection>;
+        user: Partial<User>;
+      };
+    };
+    error: { code: string; detail: string };
+  }> {
     const { error } = await this.databasesService.getDatabaseInstance(
       databaseMetaData,
     );
@@ -62,8 +74,26 @@ export class UsersService {
     }
     const connection = this.connectionsRepository.create(databaseMetaData);
     const user = await this.usersRepository.findOneBy({ id: userId });
-    await this.connectionsRepository.save({ user, ...connection });
-    return { resource: connection };
+    const { user: _, ...connectionEntity } =
+      await this.connectionsRepository.save({
+        user,
+        ...connection,
+      });
+    const newProblem = await this.problemsService.createProblem(
+      connectionEntity,
+      user,
+    );
+    return {
+      resource: {
+        connection,
+        problem: {
+          connection: { id: newProblem.connection.id },
+          user: { id: newProblem.user.id },
+          id: newProblem.id,
+        },
+      },
+      error: null,
+    };
   }
 
   async findOne(options: FindOneOptions<User>): Promise<User | null> {

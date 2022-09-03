@@ -17,7 +17,7 @@ import { RefreshTokensRepository } from './refreshTokens.repository';
   imports: [
     UserModule,
     PassportModule,
-    JwtModule.register({}),
+    JwtModule,
     TypeOrmModule.forFeature([RefreshToken]),
     SendgridModule,
   ],
