@@ -1,5 +1,5 @@
 import { Client } from 'pg';
-import { Connection } from 'src/users/connection.entity';
+import { Connection } from 'src/connection/connection.entity';
 import { User } from 'src/users/user.entity';
 
 export interface CreateNewConnectionResponse {
@@ -21,4 +21,9 @@ export interface CreateNewConnectionResponseWithError
 export interface DatabaseInstance {
   resource: Client;
   error: { code: string; detail: string };
+}
+
+export interface ProblemSource {
+  schema: string;
+  table: string;
 }

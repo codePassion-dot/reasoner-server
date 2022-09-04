@@ -1,4 +1,5 @@
 import { Problem } from 'src/problem/problem.entity';
+import { User } from 'src/users/user.entity';
 import {
   Column,
   Entity,
@@ -6,7 +7,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from './user.entity';
 
 @Entity()
 export class Connection {

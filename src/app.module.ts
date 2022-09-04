@@ -14,7 +14,8 @@ import { DatabaseModule } from './database/database.module';
 import { ParameterizerModule } from './parameterizer/parameterizer.module';
 import { ProblemModule } from './problem/problem.module';
 import { Problem } from './problem/problem.entity';
-import { Connection } from './users/connection.entity';
+import { ConnectionModule } from './connection/connection.module';
+import { Connection } from './connection/connection.entity';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { Connection } from './users/connection.entity';
     DatabaseModule,
     ParameterizerModule,
     ProblemModule,
+    ConnectionModule,
   ],
   controllers: [AppController],
   providers: [AppService, SendgridService],

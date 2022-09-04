@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Client } from 'pg';
+import { ConnectionOptions } from 'src/connection/connection-options.interface';
 import { DatabaseInstance } from 'src/parameterizer/parameterizer.types';
-import { ConnectionOptions } from 'src/users/connection-options.interface';
 
 @Injectable()
 export class DatabaseService {
