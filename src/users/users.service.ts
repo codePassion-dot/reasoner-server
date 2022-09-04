@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DatabaseService } from 'src/database/database.service';
+import { CreateNewConnectionResponseWithError } from 'src/parameterizer/parameterizer.types';
 import { ProblemService } from 'src/problem/problem.service';
 import { FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
 import { ConnectionOptions } from './connection-options.interface';
@@ -55,17 +56,7 @@ export class UsersService {
   async createConnection(
     databaseMetaData: Partial<ConnectionOptions>,
     userId: string,
-  ): Promise<{
-    resource: {
-      connection: Connection;
-      problem: {
-        id: string;
-        connection: Partial<Connection>;
-        user: Partial<User>;
-      };
-    };
-    error: { code: string; detail: string };
-  }> {
+  ): Promise<CreateNewConnectionResponseWithError> {
     const { error } = await this.databasesService.getDatabaseInstance(
       databaseMetaData,
     );

@@ -3,6 +3,7 @@ import { CreateConnectionOptionsDto } from './dtos/create-connection-options.dto
 import { Request as RequestType } from 'express';
 import { ParameterizerService } from './parameterizer.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateNewConnectionResponse } from './parameterizer.types';
 
 @UseGuards(JwtAuthGuard)
 @Controller('parameterizer')
@@ -14,7 +15,7 @@ export class ParameterizerController {
     @Body() body: CreateConnectionOptionsDto,
     @Request()
     req: RequestType & { user: { userId: string; username: string } },
-  ): Promise<any> {
+  ): Promise<CreateNewConnectionResponse> {
     const { user } = req;
     return this.parameterizerService.createNewConnection(body, user.userId);
   }

@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConnectionOptions } from 'src/users/connection-options.interface';
 import { UsersService } from 'src/users/users.service';
+import { CreateNewConnectionResponse } from './parameterizer.types';
 
 @Injectable()
 export class ParameterizerService {
@@ -9,13 +10,13 @@ export class ParameterizerService {
   async createNewConnection(
     databaseMetaData: Partial<ConnectionOptions>,
     userId: string,
-  ): Promise<any> {
+  ): Promise<CreateNewConnectionResponse> {
     const { error, resource } = await this.usersService.createConnection(
       databaseMetaData,
       userId,
     );
     if (!error) {
-      return resource;
+      return { resource };
     }
     throw new BadRequestException(error);
   }

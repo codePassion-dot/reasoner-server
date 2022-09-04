@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Client } from 'pg';
+import { DatabaseInstance } from 'src/parameterizer/parameterizer.types';
 import { ConnectionOptions } from 'src/users/connection-options.interface';
 
 @Injectable()
 export class DatabaseService {
-  constructor() {}
-
   async getDatabaseInstance(
     options: Partial<ConnectionOptions>,
-  ): Promise<{ resource: Client; error: { code: string; detail: string } }> {
+  ): Promise<DatabaseInstance> {
     const { username, port, ...rest } = options;
     const client = new Client({ ...rest, user: username, port: Number(port) });
     try {
