@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Patch,
   Post,
   Request,
@@ -34,5 +35,12 @@ export class ParameterizerController {
     @Body() body: SaveProblemSourceDto,
   ): Promise<Problem> {
     return this.parameterizerService.saveProblemSource(body);
+  }
+
+  @Get('problem-source-columns')
+  async getProblemSourceColumns(): Promise<{
+    resource: string[];
+  }> {
+    return this.parameterizerService.getProblemSourceColumns();
   }
 }

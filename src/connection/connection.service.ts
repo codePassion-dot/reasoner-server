@@ -93,4 +93,20 @@ export class ConnectionService {
     }
     return false;
   }
+
+  async getCurrentProblemSourceColumns(
+    connection: Connection,
+    table: string,
+    schema: string,
+  ): Promise<string[]> {
+    const { resource: db, error } =
+      await this.databaseService.getDatabaseInstance(connection);
+    if (!error) {
+      const { rows } = await db.query(
+        `SELECT column_name FROM information_schema.columns WHERE table_name = '${table}' AND table_schema = '${schema}';`,
+      );
+      return rows.map((row) => row.column_name);
+    }
+    return [];
+  }
 }

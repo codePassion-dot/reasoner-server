@@ -66,4 +66,32 @@ export class ParameterizerService {
     );
     return resource;
   }
+
+  async getProblemSourceColumns(): Promise<{
+    resource: string[];
+  }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+
+    const { connection, table, schema } = problem;
+
+    const columns = await this.connectionService.getCurrentProblemSourceColumns(
+      connection,
+      table,
+      schema,
+    );
+    if (!columns.length) {
+      throw new NotFoundException({
+        error: {
+          code: 'columns_not_found',
+          detail: 'Columns not found',
+        },
+        resource: null,
+      });
+    }
+    return {
+      resource: columns,
+    };
+  }
 }
