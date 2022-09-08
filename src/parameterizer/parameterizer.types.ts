@@ -27,3 +27,15 @@ export interface ProblemSource {
   schema: string;
   table: string;
 }
+
+export interface ProblemSourceSchema {
+  schemaName: string;
+}
+
+export interface ProblemSourceTable {
+  tableName: string;
+}
+
+export interface ProblemSourceColumn {
+  columnName: string;
+}

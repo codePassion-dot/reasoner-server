@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'src/connection/connection.entity';
 import { ProblemSource } from 'src/parameterizer/parameterizer.types';
@@ -27,13 +27,7 @@ export class ProblemService {
       relations,
     });
     if (!problem) {
-      throw new NotFoundException({
-        error: {
-          code: 'no_problem_being_created',
-          detail: 'No problem is being created',
-        },
-        resource: null,
-      });
+      return null;
     }
     return problem;
   }

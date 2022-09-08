@@ -10,6 +10,9 @@ import { ProblemService } from 'src/problem/problem.service';
 import {
   CreateNewConnectionResponse,
   ProblemSource,
+  ProblemSourceColumn,
+  ProblemSourceSchema,
+  ProblemSourceTable,
 } from './parameterizer.types';
 
 @Injectable()
@@ -31,6 +34,69 @@ export class ParameterizerService {
       return { resource };
     }
     throw new BadRequestException(error);
+  }
+
+  async getProblemSourceSchemas(): Promise<{
+    resource: ProblemSourceSchema[];
+  }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const { connection } = problem;
+    const schemas = await this.connectionService.getProblemSourceSchemas(
+      connection,
+    );
+    if (!schemas.length) {
+      throw new NotFoundException({
+        error: {
+          code: 'schemas_not_found',
+          detail: 'Schemas not found',
+        },
+        resource: null,
+      });
+    }
+    return { resource: schemas };
+  }
+
+  async getProblemSourceTables(
+    schema: string,
+  ): Promise<{ resource: ProblemSourceTable[] }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const { connection } = problem;
+    const tables = await this.connectionService.getProblemSourceTables(
+      connection,
+      schema,
+    );
+    if (!tables.length) {
+      throw new NotFoundException({
+        error: {
+          code: 'tables_not_found',
+          detail: 'Tables not found',
+        },
+        resource: null,
+      });
+    }
+    return { resource: tables };
   }
 
   async saveProblemSource(problemSource: ProblemSource): Promise<Problem> {
@@ -68,12 +134,20 @@ export class ParameterizerService {
   }
 
   async getProblemSourceColumns(): Promise<{
-    resource: string[];
+    resource: ProblemSourceColumn[];
   }> {
     const problem = await this.problemService.getProblemBeingCreated([
       'connection',
     ]);
-
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
     const { connection, table, schema } = problem;
 
     const columns = await this.connectionService.getCurrentProblemSourceColumns(

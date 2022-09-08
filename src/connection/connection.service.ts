@@ -4,6 +4,9 @@ import { DatabaseService } from 'src/database/database.service';
 import {
   CreateNewConnectionResponseWithError,
   ProblemSource,
+  ProblemSourceColumn,
+  ProblemSourceSchema,
+  ProblemSourceTable,
 } from 'src/parameterizer/parameterizer.types';
 import { ProblemService } from 'src/problem/problem.service';
 import { UsersService } from 'src/users/users.service';
@@ -94,18 +97,53 @@ export class ConnectionService {
     return false;
   }
 
+  async getProblemSourceSchemas(
+    connection: Connection,
+  ): Promise<ProblemSourceSchema[]> {
+    const { resource: db, error } =
+      await this.databaseService.getDatabaseInstance(connection);
+    if (!error) {
+      const { rows } = await db.query(
+        `SELECT schema_name
+        FROM information_schema.schemata
+        WHERE schema_name NOT IN ('information_schema', 'pg_catalog', 'pg_toast');`,
+      );
+      return rows.map((row) => ({
+        schemaName: row.schema_name,
+      }));
+    }
+    return null;
+  }
+
+  async getProblemSourceTables(
+    connection: Connection,
+    schema: string,
+  ): Promise<ProblemSourceTable[]> {
+    const { resource: db, error } =
+      await this.databaseService.getDatabaseInstance(connection);
+    if (!error) {
+      const { rows } = await db.query(
+        `SELECT table_name
+        FROM information_schema.tables
+        WHERE table_schema = '${schema}';`,
+      );
+      return rows.map((row) => ({ tableName: row.table_name }));
+    }
+    return [];
+  }
+
   async getCurrentProblemSourceColumns(
     connection: Connection,
     table: string,
     schema: string,
-  ): Promise<string[]> {
+  ): Promise<ProblemSourceColumn[]> {
     const { resource: db, error } =
       await this.databaseService.getDatabaseInstance(connection);
     if (!error) {
       const { rows } = await db.query(
         `SELECT column_name FROM information_schema.columns WHERE table_name = '${table}' AND table_schema = '${schema}';`,
       );
-      return rows.map((row) => row.column_name);
+      return rows.map((row) => ({ columnName: row.column_name }));
     }
     return [];
   }
