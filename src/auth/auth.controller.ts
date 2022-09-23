@@ -129,6 +129,22 @@ export class AuthController {
     response.status(202).json({ error: null, resource: rest });
   }
 
+  @Get('check-if-logged-in')
+  @UseGuards(JwtRefreshAuthGuard)
+  async checkIfLoggedIn(
+    @Request()
+    req: RequestType & {
+      user: { userId: string; clientRefreshToken: string };
+    } & {
+      error: { code: string; detail: string };
+    },
+  ): Promise<{
+    error: { code: string; detail: string } | null;
+    resource: { userId: string } | null;
+  }> {
+    return { error: null, resource: { userId: req.user.userId } };
+  }
+
   @ApiOperation(recovePasswordDescription)
   @ApiResponse(recoverPasswordSuccessfulResponse)
   @ApiResponse(recoverPasswordBadRequest)
