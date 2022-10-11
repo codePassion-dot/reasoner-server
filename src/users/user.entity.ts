@@ -1,6 +1,6 @@
 import { RefreshToken } from 'src/auth/refreshToken.entity';
 import { Connection } from 'src/connection/connection.entity';
-import { Problem } from 'src/problem/problem.entity';
+import { Problem } from 'src/problem/entities/problem.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

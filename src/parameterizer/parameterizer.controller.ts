@@ -18,8 +18,9 @@ import {
   ProblemSourceTable,
 } from './parameterizer.types';
 import { SaveProblemSourceDto } from './dtos/save-problem-source.dto';
-import { Problem } from 'src/problem/problem.entity';
+import { Problem } from 'src/problem/entities/problem.entity';
 import { GetProblemSourceTablesDto } from './dtos/get-problem-source-tables';
+import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns';
 
 @UseGuards(JwtAuthGuard)
 @Controller('parameterizer')
@@ -65,5 +66,14 @@ export class ParameterizerController {
     resource: ProblemSourceColumn[];
   }> {
     return this.parameterizerService.getProblemSourceColumns();
+  }
+
+  @Post('save-problem-source-columns')
+  async saveProblemSourceColumns(
+    @Body() body: { sections: SaveProblemSourceColumnsDto[] },
+  ): Promise<any> {
+    const { sections } = body;
+    console.log(sections);
+    return this.parameterizerService.saveProblemSourceColumns(sections);
   }
 }

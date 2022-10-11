@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'src/connection/connection.entity';
+import { SaveProblemSourceColumnsDto } from 'src/parameterizer/dtos/save-problem-source-columns';
 import { ProblemSource } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
-import { Problem } from './problem.entity';
-import { ProblemsRepository } from './problems.repository';
+import { BaseCaseColumn } from './entities/base-case-column.entity';
+import { Problem } from './entities/problem.entity';
+import { BaseCaseColumns } from './repositories/base-case-column.repository';
+import { ProblemsRepository } from './repositories/problems.repository';
 
 @Injectable()
 export class ProblemService {
   constructor(
     @InjectRepository(Problem) private problemsRepository: ProblemsRepository,
+    @InjectRepository(BaseCaseColumn)
+    private baseCaseColumnsRepository: BaseCaseColumns,
   ) {}
 
   async createProblem(
@@ -42,6 +47,26 @@ export class ProblemService {
       table: problemSource.table,
     };
     const result = await this.problemsRepository.save(problem);
+    return { resource: result };
+  }
+
+  async saveProblemSourceColumns(
+    problem: Problem,
+    problemSourceSections: SaveProblemSourceColumnsDto[],
+  ): Promise<any> {
+    for (const section of problemSourceSections) {
+      for (const option of section.options) {
+        const columnToSave = new BaseCaseColumn();
+        columnToSave.name = option;
+        columnToSave.target = section.droppableId;
+        columnToSave.problem = problem;
+        await this.baseCaseColumnsRepository.save(columnToSave);
+      }
+    }
+    const result = await this.problemsRepository.findOne({
+      where: { id: problem.id },
+      relations: ['columns'],
+    });
     return { resource: result };
   }
 }

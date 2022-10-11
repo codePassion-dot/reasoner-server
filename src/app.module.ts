@@ -13,7 +13,7 @@ import { SendgridModule } from './sendgrid/sendgrid.module';
 import { DatabaseModule } from './database/database.module';
 import { ParameterizerModule } from './parameterizer/parameterizer.module';
 import { ProblemModule } from './problem/problem.module';
-import { Problem } from './problem/problem.entity';
+import { Problem } from './problem/entities/problem.entity';
 import { ConnectionModule } from './connection/connection.module';
 import { Connection } from './connection/connection.entity';
 

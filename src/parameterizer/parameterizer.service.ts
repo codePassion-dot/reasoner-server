@@ -5,8 +5,9 @@ import {
 } from '@nestjs/common';
 import { ConnectionOptions } from 'src/connection/connection-options.interface';
 import { ConnectionService } from 'src/connection/connection.service';
-import { Problem } from 'src/problem/problem.entity';
+import { Problem } from 'src/problem/entities/problem.entity';
 import { ProblemService } from 'src/problem/problem.service';
+import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns';
 import {
   CreateNewConnectionResponse,
   ProblemSource,
@@ -155,6 +156,7 @@ export class ParameterizerService {
       table,
       schema,
     );
+
     if (!columns.length) {
       throw new NotFoundException({
         error: {
@@ -167,5 +169,27 @@ export class ParameterizerService {
     return {
       resource: columns,
     };
+  }
+
+  async saveProblemSourceColumns(
+    columns: SaveProblemSourceColumnsDto[],
+  ): Promise<Problem> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const { resource } = await this.problemService.saveProblemSourceColumns(
+      problem,
+      columns,
+    );
+    return resource;
   }
 }

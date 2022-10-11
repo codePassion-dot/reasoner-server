@@ -1,4 +1,4 @@
-import { Problem } from 'src/problem/problem.entity';
+import { Problem } from 'src/problem/entities/problem.entity';
 import { User } from 'src/users/user.entity';
 import {
   Column,

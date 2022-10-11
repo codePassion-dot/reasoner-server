@@ -1,6 +1,13 @@
 import { Connection } from 'src/connection/connection.entity';
 import { User } from 'src/users/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { BaseCaseColumn } from './base-case-column.entity';
 
 @Entity()
 export class Problem {
@@ -18,4 +25,6 @@ export class Problem {
   connection: Connection;
   @ManyToOne(() => User, (user) => user.problems)
   user: User;
+  @OneToMany(() => BaseCaseColumn, (column) => column.problem)
+  columns: BaseCaseColumn[];
 }
