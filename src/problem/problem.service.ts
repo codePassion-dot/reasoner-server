@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'src/connection/connection.entity';
 import { SaveProblemSourceColumnsDto } from 'src/parameterizer/dtos/save-problem-source-columns';
+import { SaveProblemSourceColumnsTypeDto } from 'src/parameterizer/dtos/save-problem-source-columns-types.dto';
 import { ProblemSource } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
 import { BaseCaseColumn } from './entities/base-case-column.entity';
@@ -53,7 +54,7 @@ export class ProblemService {
   async saveProblemSourceColumns(
     problem: Problem,
     problemSourceSections: SaveProblemSourceColumnsDto[],
-  ): Promise<any> {
+  ): Promise<{ resource: Problem }> {
     for (const section of problemSourceSections) {
       for (const option of section.options) {
         const columnToSave = new BaseCaseColumn();
@@ -61,6 +62,38 @@ export class ProblemService {
         columnToSave.target = section.droppableId;
         columnToSave.problem = problem;
         await this.baseCaseColumnsRepository.save(columnToSave);
+      }
+    }
+    const result = await this.problemsRepository.findOne({
+      where: { id: problem.id },
+      relations: ['columns'],
+    });
+    return { resource: result };
+  }
+
+  async getProblemSourceSelectedColumns(
+    problem: Problem,
+  ): Promise<{ resource: { columnName: string }[] }> {
+    const columns = await this.baseCaseColumnsRepository.find({
+      where: { problem },
+    });
+    const result = columns
+      .filter((column) => column.target !== 'goal-factor') // we do not need to normalize the potential answer
+      .map(({ name }) => ({ columnName: name }));
+    return { resource: result };
+  }
+
+  async saveProblemSourceColumnsTypes(
+    problem: Problem,
+    problemSourceColumns: SaveProblemSourceColumnsTypeDto[],
+  ): Promise<any> {
+    for (const section of problemSourceColumns) {
+      for (const option of section.options) {
+        const column = await this.baseCaseColumnsRepository.findOne({
+          where: { name: option, problem },
+        });
+        column.type = section.droppableId;
+        await this.baseCaseColumnsRepository.save(column);
       }
     }
     const result = await this.problemsRepository.findOne({

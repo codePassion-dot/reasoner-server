@@ -23,6 +23,6 @@ async function bootstrap() {
     origin: [configService.get('FRONTEND_URL')],
     credentials: true,
   });
-  await app.listen(3000);
+  await app.listen(8080);
 }
 bootstrap();

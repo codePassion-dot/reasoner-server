@@ -21,6 +21,7 @@ import { SaveProblemSourceDto } from './dtos/save-problem-source.dto';
 import { Problem } from 'src/problem/entities/problem.entity';
 import { GetProblemSourceTablesDto } from './dtos/get-problem-source-tables';
 import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns';
+import { SaveProblemSourceColumnsTypeDto } from './dtos/save-problem-source-columns-types.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('parameterizer')
@@ -71,9 +72,23 @@ export class ParameterizerController {
   @Post('save-problem-source-columns')
   async saveProblemSourceColumns(
     @Body() body: { sections: SaveProblemSourceColumnsDto[] },
-  ): Promise<any> {
+  ): Promise<{ resource: Problem }> {
     const { sections } = body;
-    console.log(sections);
     return this.parameterizerService.saveProblemSourceColumns(sections);
+  }
+
+  @Get('get-problem-source-selected-columns')
+  async getProblemSourceSelectedColumns(): Promise<{
+    resource: { columnName: string }[];
+  }> {
+    return this.parameterizerService.getProblemSourceSelectedColumns();
+  }
+
+  @Post('save-problem-source-columns-types')
+  async saveProblemSourceColumnsType(
+    @Body() body: { sections: SaveProblemSourceColumnsTypeDto[] },
+  ): Promise<{ resource: Problem }> {
+    const { sections } = body;
+    return this.parameterizerService.saveProblemSourceColumnsTypes(sections);
   }
 }

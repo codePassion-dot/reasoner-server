@@ -8,6 +8,7 @@ import { ConnectionService } from 'src/connection/connection.service';
 import { Problem } from 'src/problem/entities/problem.entity';
 import { ProblemService } from 'src/problem/problem.service';
 import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns';
+import { SaveProblemSourceColumnsTypeDto } from './dtos/save-problem-source-columns-types.dto';
 import {
   CreateNewConnectionResponse,
   ProblemSource,
@@ -173,7 +174,7 @@ export class ParameterizerService {
 
   async saveProblemSourceColumns(
     columns: SaveProblemSourceColumnsDto[],
-  ): Promise<Problem> {
+  ): Promise<{ resource: Problem }> {
     const problem = await this.problemService.getProblemBeingCreated([
       'connection',
     ]);
@@ -186,7 +187,50 @@ export class ParameterizerService {
         resource: null,
       });
     }
-    const { resource } = await this.problemService.saveProblemSourceColumns(
+    const resource = await this.problemService.saveProblemSourceColumns(
+      problem,
+      columns,
+    );
+    return resource;
+  }
+
+  async getProblemSourceSelectedColumns(): Promise<{
+    resource: { columnName: string }[];
+  }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const resource = await this.problemService.getProblemSourceSelectedColumns(
+      problem,
+    );
+    return resource;
+  }
+
+  async saveProblemSourceColumnsTypes(
+    columns: SaveProblemSourceColumnsTypeDto[],
+  ): Promise<{ resource: Problem }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const resource = await this.problemService.saveProblemSourceColumnsTypes(
       problem,
       columns,
     );
