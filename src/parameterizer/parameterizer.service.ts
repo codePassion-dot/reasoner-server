@@ -236,4 +236,32 @@ export class ParameterizerService {
     );
     return resource;
   }
+
+  async getProblemSourceSelectedOrdinalColumns(): Promise<{
+    resource: { columnName: string; values: string[] }[];
+  }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const { resource } =
+      await this.problemService.getProblemSourceSelectedOrdinalColumns(problem);
+    console.log(resource);
+
+    const columns = await this.connectionService.getProblemSourceOrdinalValues(
+      problem.connection,
+      problem.table,
+      problem.schema,
+      resource,
+    );
+    return { resource: columns };
+  }
 }

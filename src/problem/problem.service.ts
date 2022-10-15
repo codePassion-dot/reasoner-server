@@ -5,6 +5,7 @@ import { SaveProblemSourceColumnsDto } from 'src/parameterizer/dtos/save-problem
 import { SaveProblemSourceColumnsTypeDto } from 'src/parameterizer/dtos/save-problem-source-columns-types.dto';
 import { ProblemSource } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
+import { Not } from 'typeorm';
 import { BaseCaseColumn } from './entities/base-case-column.entity';
 import { Problem } from './entities/problem.entity';
 import { BaseCaseColumns } from './repositories/base-case-column.repository';
@@ -75,11 +76,9 @@ export class ProblemService {
     problem: Problem,
   ): Promise<{ resource: { columnName: string }[] }> {
     const columns = await this.baseCaseColumnsRepository.find({
-      where: { problem },
+      where: { problem, type: Not('goal-factor') },
     });
-    const result = columns
-      .filter((column) => column.target !== 'goal-factor') // we do not need to normalize the potential answer
-      .map(({ name }) => ({ columnName: name }));
+    const result = columns.map(({ name }) => ({ columnName: name }));
     return { resource: result };
   }
 
@@ -100,6 +99,16 @@ export class ProblemService {
       where: { id: problem.id },
       relations: ['columns'],
     });
+    return { resource: result };
+  }
+
+  async getProblemSourceSelectedOrdinalColumns(
+    problem: Problem,
+  ): Promise<{ resource: { columnName: string }[] }> {
+    const columns = await this.baseCaseColumnsRepository.find({
+      where: { problem, type: 'ordinal-columns' },
+    });
+    const result = columns.map(({ name }) => ({ columnName: name }));
     return { resource: result };
   }
 }

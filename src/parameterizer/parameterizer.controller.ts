@@ -91,4 +91,11 @@ export class ParameterizerController {
     const { sections } = body;
     return this.parameterizerService.saveProblemSourceColumnsTypes(sections);
   }
+
+  @Get('get-problem-source-selected-ordinal-columns')
+  async getProblemSourceSelectedOrdinalColumns(): Promise<{
+    resource: { columnName: string; values: string[] }[];
+  }> {
+    return this.parameterizerService.getProblemSourceSelectedOrdinalColumns();
+  }
 }
