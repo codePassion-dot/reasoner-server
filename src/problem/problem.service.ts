@@ -3,12 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'src/connection/connection.entity';
 import { SaveProblemSourceColumnsDto } from 'src/parameterizer/dtos/save-problem-source-columns';
 import { SaveProblemSourceColumnsTypeDto } from 'src/parameterizer/dtos/save-problem-source-columns-types.dto';
-import { ProblemSource } from 'src/parameterizer/parameterizer.types';
+import {
+  ProblemSource,
+  ProblemSourceMappedColumns,
+} from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
 import { Not } from 'typeorm';
 import { BaseCaseColumn } from './entities/base-case-column.entity';
+import { MappedValue } from './entities/mapped-value.entity';
 import { Problem } from './entities/problem.entity';
 import { BaseCaseColumns } from './repositories/base-case-column.repository';
+import { MappedValuesRepository } from './repositories/mapped-values.repository';
 import { ProblemsRepository } from './repositories/problems.repository';
 
 @Injectable()
@@ -17,6 +22,8 @@ export class ProblemService {
     @InjectRepository(Problem) private problemsRepository: ProblemsRepository,
     @InjectRepository(BaseCaseColumn)
     private baseCaseColumnsRepository: BaseCaseColumns,
+    @InjectRepository(MappedValue)
+    private MappedValues: MappedValuesRepository,
   ) {}
 
   async createProblem(
@@ -109,6 +116,30 @@ export class ProblemService {
       where: { problem, type: 'ordinal-columns' },
     });
     const result = columns.map(({ name }) => ({ columnName: name }));
+    return { resource: result };
+  }
+
+  async saveProblemSourceSelectedOrdinalColumns(
+    problem: Problem,
+    selectedOrdinalColumns: ProblemSourceMappedColumns,
+  ): Promise<{ resource: BaseCaseColumn }> {
+    const columns = Object.entries(selectedOrdinalColumns);
+    for (const [columnName, mappedValues] of columns) {
+      const column = await this.baseCaseColumnsRepository.findOne({
+        where: { name: columnName, problem },
+      });
+      for (const { ordinalValue, mappedValue } of mappedValues) {
+        const mappedValueToSave = new MappedValue();
+        mappedValueToSave.baseCaseColumn = column;
+        mappedValueToSave.ordinalValue = ordinalValue;
+        mappedValueToSave.mappedValue = mappedValue;
+        await this.MappedValues.save(mappedValueToSave);
+      }
+    }
+    const result = await this.baseCaseColumnsRepository.findOne({
+      where: { problem, name: columns[0][0] },
+      relations: ['mappedValues'],
+    });
     return { resource: result };
   }
 }

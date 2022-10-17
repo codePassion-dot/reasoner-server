@@ -39,3 +39,7 @@ export interface ProblemSourceTable {
 export interface ProblemSourceColumn {
   columnName: string;
 }
+
+export interface ProblemSourceMappedColumns {
+  [key: string]: { ordinalValue: string; mappedValue: number }[];
+}
