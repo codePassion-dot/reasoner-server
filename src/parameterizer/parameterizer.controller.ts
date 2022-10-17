@@ -22,6 +22,8 @@ import { Problem } from 'src/problem/entities/problem.entity';
 import { GetProblemSourceTablesDto } from './dtos/get-problem-source-tables';
 import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns';
 import { SaveProblemSourceColumnsTypeDto } from './dtos/save-problem-source-columns-types.dto';
+import { SaveProblemSourceSelectedOrdinalColumns } from './dtos/save-problem-source-selected-ordinal-columns.dto';
+import { BaseCaseColumn } from 'src/problem/entities/base-case-column.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('parameterizer')
@@ -90,5 +92,23 @@ export class ParameterizerController {
   ): Promise<{ resource: Problem }> {
     const { sections } = body;
     return this.parameterizerService.saveProblemSourceColumnsTypes(sections);
+  }
+
+  @Get('get-problem-source-selected-ordinal-columns')
+  async getProblemSourceSelectedOrdinalColumns(): Promise<{
+    resource: { columnName: string; values: string[] }[];
+  }> {
+    return this.parameterizerService.getProblemSourceSelectedOrdinalColumns();
+  }
+
+  @Post('save-problem-source-selected-ordinal-columns')
+  async saveProblemSourceSelectedOrdinalColumns(
+    @Body()
+    body: SaveProblemSourceSelectedOrdinalColumns,
+  ): Promise<{ resource: BaseCaseColumn }> {
+    const { selectedOrdinalColumns } = body;
+    return this.parameterizerService.saveProblemSourceSelectedOrdinalColumns(
+      selectedOrdinalColumns,
+    );
   }
 }

@@ -147,4 +147,27 @@ export class ConnectionService {
     }
     return [];
   }
+
+  async getProblemSourceOrdinalValues(
+    connection: Connection,
+    table: string,
+    schema: string,
+    columnNames: { columnName: string }[],
+  ): Promise<{ columnName: string; values: string[] }[]> {
+    const { resource: db, error } =
+      await this.databaseService.getDatabaseInstance(connection);
+    const columns = [];
+    if (!error) {
+      for (const { columnName } of columnNames) {
+        const { rows } = await db.query(
+          `SELECT DISTINCT ${columnName} FROM ${schema}.${table};`,
+        );
+        columns.push({
+          columnName,
+          values: rows.map((row) => row[columnName]),
+        });
+      }
+    }
+    return columns;
+  }
 }

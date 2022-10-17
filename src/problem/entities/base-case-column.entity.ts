@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { MappedValue } from './mapped-value.entity';
 import { Problem } from './problem.entity';
 
 @Entity()
@@ -13,4 +20,6 @@ export class BaseCaseColumn {
   type: string;
   @ManyToOne(() => Problem, (problem) => problem.columns)
   problem: Problem;
+  @OneToMany(() => MappedValue, (mappedValue) => mappedValue.baseCaseColumn)
+  mappedValues: MappedValue[];
 }

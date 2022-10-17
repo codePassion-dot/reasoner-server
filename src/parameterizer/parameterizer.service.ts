@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { ConnectionOptions } from 'src/connection/connection-options.interface';
 import { ConnectionService } from 'src/connection/connection.service';
+import { BaseCaseColumn } from 'src/problem/entities/base-case-column.entity';
 import { Problem } from 'src/problem/entities/problem.entity';
 import { ProblemService } from 'src/problem/problem.service';
 import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns';
@@ -13,6 +14,7 @@ import {
   CreateNewConnectionResponse,
   ProblemSource,
   ProblemSourceColumn,
+  ProblemSourceMappedColumns,
   ProblemSourceSchema,
   ProblemSourceTable,
 } from './parameterizer.types';
@@ -234,6 +236,56 @@ export class ParameterizerService {
       problem,
       columns,
     );
+    return resource;
+  }
+
+  async getProblemSourceSelectedOrdinalColumns(): Promise<{
+    resource: { columnName: string; values: string[] }[];
+  }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const { resource } =
+      await this.problemService.getProblemSourceSelectedOrdinalColumns(problem);
+
+    const columns = await this.connectionService.getProblemSourceOrdinalValues(
+      problem.connection,
+      problem.table,
+      problem.schema,
+      resource,
+    );
+    return { resource: columns };
+  }
+
+  async saveProblemSourceSelectedOrdinalColumns(
+    selectedOrdinalColumns: ProblemSourceMappedColumns,
+  ): Promise<{ resource: BaseCaseColumn }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const resource =
+      await this.problemService.saveProblemSourceSelectedOrdinalColumns(
+        problem,
+        selectedOrdinalColumns,
+      );
     return resource;
   }
 }
