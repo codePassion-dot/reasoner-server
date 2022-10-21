@@ -16,6 +16,7 @@ import {
   ProblemSourceColumn,
   ProblemSourceSchema,
   ProblemSourceTable,
+  ProbleSourceSelectedColumnsNewProblem,
 } from './parameterizer.types';
 import { SaveProblemSourceDto } from './dtos/save-problem-source.dto';
 import { Problem } from 'src/problem/entities/problem.entity';
@@ -110,5 +111,12 @@ export class ParameterizerController {
     return this.parameterizerService.saveProblemSourceSelectedOrdinalColumns(
       selectedOrdinalColumns,
     );
+  }
+
+  @Get('get-problem-source-selected-columns-new-problem')
+  async getProblemSourceSelectedColumnsNewProblem(): Promise<{
+    resource: ProbleSourceSelectedColumnsNewProblem[];
+  }> {
+    return this.parameterizerService.getProblemSourceSelectedColumnsNewProblem();
   }
 }

@@ -6,6 +6,7 @@ import { SaveProblemSourceColumnsTypeDto } from 'src/parameterizer/dtos/save-pro
 import {
   ProblemSource,
   ProblemSourceMappedColumns,
+  ProbleSourceSelectedColumnsNewProblem,
 } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
 import { Not } from 'typeorm';
@@ -83,9 +84,33 @@ export class ProblemService {
     problem: Problem,
   ): Promise<{ resource: { columnName: string }[] }> {
     const columns = await this.baseCaseColumnsRepository.find({
-      where: { problem, type: Not('goal-factor') },
+      where: { problem, target: Not('goal-factor') },
     });
     const result = columns.map(({ name }) => ({ columnName: name }));
+    return { resource: result };
+  }
+
+  async getProblemSourceSelectedColumnsNewProblem(
+    problem: Problem,
+  ): Promise<{ resource: ProbleSourceSelectedColumnsNewProblem[] }> {
+    const columns = await this.baseCaseColumnsRepository.find({
+      where: { problem, target: Not('goal-factor') },
+      relations: ['mappedValues'],
+    });
+    const result = columns.map(({ name, type, mappedValues }) => {
+      const base = {
+        columnName: name,
+        type,
+        options: mappedValues.map(({ ordinalValue }) => ordinalValue),
+      };
+      if (type === 'boolean-columns') {
+        return {
+          ...base,
+          options: ['true', 'false'],
+        };
+      }
+      return base;
+    });
     return { resource: result };
   }
 

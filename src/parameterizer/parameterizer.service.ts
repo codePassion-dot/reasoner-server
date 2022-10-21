@@ -17,6 +17,7 @@ import {
   ProblemSourceMappedColumns,
   ProblemSourceSchema,
   ProblemSourceTable,
+  ProbleSourceSelectedColumnsNewProblem,
 } from './parameterizer.types';
 
 @Injectable()
@@ -285,6 +286,28 @@ export class ParameterizerService {
       await this.problemService.saveProblemSourceSelectedOrdinalColumns(
         problem,
         selectedOrdinalColumns,
+      );
+    return resource;
+  }
+
+  async getProblemSourceSelectedColumnsNewProblem(): Promise<{
+    resource: ProbleSourceSelectedColumnsNewProblem[];
+  }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const resource =
+      await this.problemService.getProblemSourceSelectedColumnsNewProblem(
+        problem,
       );
     return resource;
   }
