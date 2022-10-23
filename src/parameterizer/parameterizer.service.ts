@@ -12,6 +12,7 @@ import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns'
 import { SaveProblemSourceColumnsTypeDto } from './dtos/save-problem-source-columns-types.dto';
 import {
   CreateNewConnectionResponse,
+  NewRegistry,
   ProblemSource,
   ProblemSourceColumn,
   ProblemSourceMappedColumns,
@@ -309,6 +310,28 @@ export class ParameterizerService {
       await this.problemService.getProblemSourceSelectedColumnsNewProblem(
         problem,
       );
+    return resource;
+  }
+
+  async saveNewRegistrySelectedColumns(
+    selectedValues: NewRegistry[],
+  ): Promise<{ resource: Problem }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const resource = await this.problemService.saveNewRegistrySelectedColumns(
+      problem,
+      selectedValues,
+    );
     return resource;
   }
 }

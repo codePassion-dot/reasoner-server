@@ -25,6 +25,7 @@ import { SaveProblemSourceColumnsDto } from './dtos/save-problem-source-columns'
 import { SaveProblemSourceColumnsTypeDto } from './dtos/save-problem-source-columns-types.dto';
 import { SaveProblemSourceSelectedOrdinalColumns } from './dtos/save-problem-source-selected-ordinal-columns.dto';
 import { BaseCaseColumn } from 'src/problem/entities/base-case-column.entity';
+import { SaveNewRegistrySelectedColumnsDto } from './dtos/save-new-registry-selected-columns.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('parameterizer')
@@ -118,5 +119,12 @@ export class ParameterizerController {
     resource: ProbleSourceSelectedColumnsNewProblem[];
   }> {
     return this.parameterizerService.getProblemSourceSelectedColumnsNewProblem();
+  }
+
+  @Post('save-new-registry-selected-columns')
+  async saveNewProblemSelectedColumns(
+    @Body() body: SaveNewRegistrySelectedColumnsDto[],
+  ): Promise<{ resource: Problem }> {
+    return this.parameterizerService.saveNewRegistrySelectedColumns(body);
   }
 }

@@ -44,6 +44,11 @@ export interface ProblemSourceMappedColumns {
   [key: string]: { ordinalValue: string; mappedValue: number }[];
 }
 
+export interface NewRegistry {
+  columnName: string;
+  value: string | number;
+}
+
 export interface ProbleSourceSelectedColumnsNewProblem {
   columnName: string;
   type: string;
