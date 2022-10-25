@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { ConnectionOptions } from 'src/connection/connection-options.interface';
 import { ConnectionService } from 'src/connection/connection.service';
+import { Algorithm } from 'src/problem/entities/algorithm.entity';
 import { BaseCaseColumn } from 'src/problem/entities/base-case-column.entity';
 import { Problem } from 'src/problem/entities/problem.entity';
 import { ProblemService } from 'src/problem/problem.service';
@@ -332,6 +333,11 @@ export class ParameterizerService {
       problem,
       selectedValues,
     );
+    return resource;
+  }
+
+  async getAvailableAlgorithms(): Promise<{ resource: Algorithm[] }> {
+    const resource = await this.problemService.getAvailableAlgorithms();
     return resource;
   }
 }

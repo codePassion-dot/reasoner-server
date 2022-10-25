@@ -18,6 +18,8 @@ import { Problem } from './entities/problem.entity';
 import { BaseCaseColumns } from './repositories/base-case-column.repository';
 import { MappedValuesRepository } from './repositories/mapped-values.repository';
 import { ProblemsRepository } from './repositories/problems.repository';
+import { Algorithm } from './entities/algorithm.entity';
+import { AlgorithmsRepository } from './repositories/algorithms.repository';
 
 @Injectable()
 export class ProblemService {
@@ -29,6 +31,8 @@ export class ProblemService {
     private MappedValues: MappedValuesRepository,
     @InjectRepository(Registry)
     private registriesRepository: ProblemsRepository,
+    @InjectRepository(Algorithm)
+    private algorithmsRepository: AlgorithmsRepository,
   ) {}
 
   async createProblem(
@@ -187,6 +191,11 @@ export class ProblemService {
       where: { id: problem.id },
       relations: ['registries'],
     });
+    return { resource: result };
+  }
+
+  async getAvailableAlgorithms(): Promise<{ resource: Algorithm[] }> {
+    const result = await this.algorithmsRepository.find();
     return { resource: result };
   }
 }
