@@ -4,13 +4,16 @@ import { Connection } from 'src/connection/connection.entity';
 import { SaveProblemSourceColumnsDto } from 'src/parameterizer/dtos/save-problem-source-columns';
 import { SaveProblemSourceColumnsTypeDto } from 'src/parameterizer/dtos/save-problem-source-columns-types.dto';
 import {
+  NewRegistry,
   ProblemSource,
   ProblemSourceMappedColumns,
+  ProbleSourceSelectedColumnsNewProblem,
 } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
 import { Not } from 'typeorm';
 import { BaseCaseColumn } from './entities/base-case-column.entity';
 import { MappedValue } from './entities/mapped-value.entity';
+import { Registry } from './entities/registry.entity';
 import { Problem } from './entities/problem.entity';
 import { BaseCaseColumns } from './repositories/base-case-column.repository';
 import { MappedValuesRepository } from './repositories/mapped-values.repository';
@@ -24,6 +27,8 @@ export class ProblemService {
     private baseCaseColumnsRepository: BaseCaseColumns,
     @InjectRepository(MappedValue)
     private MappedValues: MappedValuesRepository,
+    @InjectRepository(Registry)
+    private registriesRepository: ProblemsRepository,
   ) {}
 
   async createProblem(
@@ -83,9 +88,33 @@ export class ProblemService {
     problem: Problem,
   ): Promise<{ resource: { columnName: string }[] }> {
     const columns = await this.baseCaseColumnsRepository.find({
-      where: { problem, type: Not('goal-factor') },
+      where: { problem, target: Not('goal-factor') },
     });
     const result = columns.map(({ name }) => ({ columnName: name }));
+    return { resource: result };
+  }
+
+  async getProblemSourceSelectedColumnsNewProblem(
+    problem: Problem,
+  ): Promise<{ resource: ProbleSourceSelectedColumnsNewProblem[] }> {
+    const columns = await this.baseCaseColumnsRepository.find({
+      where: { problem, target: Not('goal-factor') },
+      relations: ['mappedValues'],
+    });
+    const result = columns.map(({ name, type, mappedValues }) => {
+      const base = {
+        columnName: name,
+        type,
+        options: mappedValues.map(({ ordinalValue }) => ordinalValue),
+      };
+      if (type === 'boolean-columns') {
+        return {
+          ...base,
+          options: ['true', 'false'],
+        };
+      }
+      return base;
+    });
     return { resource: result };
   }
 
@@ -139,6 +168,24 @@ export class ProblemService {
     const result = await this.baseCaseColumnsRepository.findOne({
       where: { problem, name: columns[0][0] },
       relations: ['mappedValues'],
+    });
+    return { resource: result };
+  }
+
+  async saveNewRegistrySelectedColumns(
+    problem: Problem,
+    newRegistry: NewRegistry[],
+  ): Promise<{ resource: Problem }> {
+    for (const entry of newRegistry) {
+      const registry = new Registry();
+      registry.problem = problem;
+      registry.name = entry.columnName;
+      registry.value = String(entry.value);
+      await this.registriesRepository.save(registry);
+    }
+    const result = await this.problemsRepository.findOne({
+      where: { id: problem.id },
+      relations: ['registries'],
     });
     return { resource: result };
   }

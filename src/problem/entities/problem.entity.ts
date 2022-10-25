@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseCaseColumn } from './base-case-column.entity';
+import { Registry } from './registry.entity';
 
 @Entity()
 export class Problem {
@@ -27,4 +28,6 @@ export class Problem {
   user: User;
   @OneToMany(() => BaseCaseColumn, (column) => column.problem)
   columns: BaseCaseColumn[];
+  @OneToMany(() => Registry, (registry) => registry.problem)
+  registries: Registry[];
 }
