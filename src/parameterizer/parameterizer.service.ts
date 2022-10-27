@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { ConnectionOptions } from 'src/connection/connection-options.interface';
 import { ConnectionService } from 'src/connection/connection.service';
+import { Algorithm } from 'src/problem/entities/algorithm.entity';
 import { BaseCaseColumn } from 'src/problem/entities/base-case-column.entity';
 import { Problem } from 'src/problem/entities/problem.entity';
 import { ProblemService } from 'src/problem/problem.service';
@@ -331,6 +332,33 @@ export class ParameterizerService {
     const resource = await this.problemService.saveNewRegistrySelectedColumns(
       problem,
       selectedValues,
+    );
+    return resource;
+  }
+
+  async getAvailableAlgorithms(): Promise<{ resource: Algorithm[] }> {
+    const resource = await this.problemService.getAvailableAlgorithms();
+    return resource;
+  }
+
+  async saveProblemAlgorithm(
+    algorithm: string,
+  ): Promise<{ resource: Problem }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const resource = await this.problemService.saveProblemAlgorithm(
+      problem,
+      algorithm,
     );
     return resource;
   }

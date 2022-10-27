@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Algorithm } from './algorithm.entity';
 import { BaseCaseColumn } from './base-case-column.entity';
 import { Registry } from './registry.entity';
 
@@ -30,4 +31,6 @@ export class Problem {
   columns: BaseCaseColumn[];
   @OneToMany(() => Registry, (registry) => registry.problem)
   registries: Registry[];
+  @ManyToOne(() => Algorithm, (algorithm) => algorithm.problems)
+  algorithm: Algorithm;
 }
