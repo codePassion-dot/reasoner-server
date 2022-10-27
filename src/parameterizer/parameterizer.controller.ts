@@ -27,6 +27,7 @@ import { SaveProblemSourceSelectedOrdinalColumns } from './dtos/save-problem-sou
 import { BaseCaseColumn } from 'src/problem/entities/base-case-column.entity';
 import { SaveNewRegistrySelectedColumnsDto } from './dtos/save-new-registry-selected-columns.dto';
 import { Algorithm } from 'src/problem/entities/algorithm.entity';
+import { SaveProblemAlgorithmDto } from './dtos/save-problem-algorithm.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('parameterizer')
@@ -132,5 +133,13 @@ export class ParameterizerController {
   @Get('get-available-algorithms')
   async getAvailableAlgorithms(): Promise<{ resource: Algorithm[] }> {
     return this.parameterizerService.getAvailableAlgorithms();
+  }
+
+  @Post('save-problem-algorithm')
+  async saveProblemAlgorithm(
+    @Body() body: SaveProblemAlgorithmDto,
+  ): Promise<{ resource: Problem }> {
+    const { algorithmName } = body;
+    return this.parameterizerService.saveProblemAlgorithm(algorithmName);
   }
 }

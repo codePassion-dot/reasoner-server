@@ -198,4 +198,16 @@ export class ProblemService {
     const result = await this.algorithmsRepository.find();
     return { resource: result };
   }
+
+  async saveProblemAlgorithm(
+    problem: Problem,
+    algorithm: string,
+  ): Promise<{ resource: Problem }> {
+    const algorithmToSave = await this.algorithmsRepository.findOne({
+      where: { name: algorithm },
+    });
+    problem.algorithm = algorithmToSave;
+    const result = await this.problemsRepository.save(problem);
+    return { resource: result };
+  }
 }

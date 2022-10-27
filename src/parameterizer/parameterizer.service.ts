@@ -340,4 +340,26 @@ export class ParameterizerService {
     const resource = await this.problemService.getAvailableAlgorithms();
     return resource;
   }
+
+  async saveProblemAlgorithm(
+    algorithm: string,
+  ): Promise<{ resource: Problem }> {
+    const problem = await this.problemService.getProblemBeingCreated([
+      'connection',
+    ]);
+    if (!problem) {
+      throw new NotFoundException({
+        error: {
+          code: 'no_problem_being_created',
+          detail: 'No problem is being created',
+        },
+        resource: null,
+      });
+    }
+    const resource = await this.problemService.saveProblemAlgorithm(
+      problem,
+      algorithm,
+    );
+    return resource;
+  }
 }
