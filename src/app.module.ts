@@ -16,6 +16,7 @@ import { ProblemModule } from './problem/problem.module';
 import { Problem } from './problem/entities/problem.entity';
 import { ConnectionModule } from './connection/connection.module';
 import { Connection } from './connection/connection.entity';
+import { SolverModule } from './solver/solver.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { Connection } from './connection/connection.entity';
     ParameterizerModule,
     ProblemModule,
     ConnectionModule,
+    SolverModule,
   ],
   controllers: [AppController],
   providers: [AppService, SendgridService],

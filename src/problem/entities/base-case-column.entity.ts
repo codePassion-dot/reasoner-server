@@ -16,7 +16,10 @@ export class BaseCaseColumn {
   name: string;
   @Column({ enum: ['predicting-factors', 'goal-factor'] })
   target: string;
-  @Column({ enum: ['ordinal', 'boolean', 'numeric'], nullable: true })
+  @Column({
+    enum: ['ordinal', 'boolean', 'numeric', 'literal'],
+    nullable: true,
+  })
   type: string;
   @ManyToOne(() => Problem, (problem) => problem.columns)
   problem: Problem;

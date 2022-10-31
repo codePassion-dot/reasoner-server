@@ -210,4 +210,31 @@ export class ProblemService {
     const result = await this.problemsRepository.save(problem);
     return { resource: result };
   }
+
+  async getBaseColumnMi(
+    columnName: string,
+  ): Promise<{ resource: { mi: number } }> {
+    const column = await this.baseCaseColumnsRepository.findOne({
+      where: { name: columnName },
+      relations: ['mappedValues'],
+    });
+    return { resource: { mi: column.mappedValues.length } };
+  }
+
+  async getBaseColumnMappedValue(
+    columnName: string,
+    columnValue: string,
+  ): Promise<{ resource: { mappedValue: number } }> {
+    const column = await this.baseCaseColumnsRepository.findOne({
+      where: { name: columnName },
+      relations: ['mappedValues'],
+    });
+    return {
+      resource: {
+        mappedValue: column.mappedValues.find(
+          ({ ordinalValue }) => ordinalValue === columnValue,
+        ).mappedValue,
+      },
+    };
+  }
 }
