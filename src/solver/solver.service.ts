@@ -16,8 +16,10 @@ export class SolverService {
       'columns',
       'connection',
       'algorithm',
+      'registries',
     ]);
-    const { columns, connection, table, schema, algorithm } = problem;
+    const { columns, connection, table, schema, algorithm, registries } =
+      problem;
     if (!problem) {
       throw new NotFoundException({
         error: {
@@ -62,6 +64,84 @@ export class SolverService {
       algorithm,
       remoteBaseCasesConnection,
     );
+
+    const formattedNewCase = registries.reduce(
+      (acc, registry) => ({
+        ...acc,
+        [registry.name]: registry.value,
+      }),
+      {},
+    );
+
+    const normalizedNewCase = await this.normalizeRow(
+      formattedNewCase,
+      columnTypes,
+      algorithm.name,
+      remoteBaseCasesConnection,
+    );
+
+    if (algorithm.name === 'euclidian-distance') {
+      this.getNearestNeighbor(
+        normalizedBaseCases,
+        normalizedNewCase,
+        remoteBaseCasesConnection,
+        (caseBaseFactorX: number, newCaseFactorY: number) =>
+          Math.sqrt(Math.pow(caseBaseFactorX - newCaseFactorY, 2)),
+      );
+    } else if (algorithm.name === 'manhattan-distance') {
+      this.getNearestNeighbor(
+        normalizedBaseCases,
+        normalizedNewCase,
+        remoteBaseCasesConnection,
+        (
+          caseBaseFactorX: number,
+          newCaseFactorY: number,
+          rMax: number,
+          rMin: number,
+        ) => 1 - Math.abs((caseBaseFactorX - newCaseFactorY) / (rMax + rMin)),
+      );
+    }
+  }
+
+  async getNearestNeighbor(
+    normalizedBaseCases: Record<string, number | string>[],
+    normalizedNewCase: Record<string, number | string>,
+    remoteBaseCasesConnection: {
+      connection: Connection;
+      table: string;
+      schema: string;
+    },
+    distanceFunction: (
+      caseBaseFactorX: number,
+      newCaseFactorY: number,
+      rMax?: number,
+      rMin?: number,
+    ) => number,
+  ) {
+    const [, newCaseColumnValue] = Object.entries(normalizedNewCase)[0];
+    return Promise.all(
+      normalizedBaseCases.map(async (baseCase) => {
+        const [columnName, columnValue] = Object.entries(baseCase)[0];
+        const {
+          resource: { min, max },
+        } = await this.connectionService.getNumericColumnMinMax({
+          ...remoteBaseCasesConnection,
+          columnName,
+        });
+        if (
+          typeof columnValue === 'number' &&
+          typeof newCaseColumnValue === 'number'
+        ) {
+          const distance = distanceFunction(
+            columnValue,
+            newCaseColumnValue,
+            max,
+            min,
+          );
+          return { ...baseCase, distance };
+        }
+      }),
+    );
   }
 
   async normalizeBaseCases(
@@ -76,26 +156,45 @@ export class SolverService {
   ): Promise<Record<string, number | string>[]> {
     return Promise.all(
       allBaseCases.map(async (baseCase) => {
-        const normalizedBaseCase = {};
-        for (const [columnName, columnValue] of Object.entries(baseCase)) {
-          const { columnType } = columnTypes.find(
-            (column) => column.columnName === columnName,
-          );
-          const normalizedValue = await this.normalizeRow(
-            columnType,
-            columnName,
-            columnValue,
-            algorithm.name,
-            remoteBaseCasesConnection,
-          );
-          Object.assign(normalizedBaseCase, normalizedValue);
-        }
-        return normalizedBaseCase;
+        const normalizedValue = await this.normalizeRow(
+          baseCase,
+          columnTypes,
+          algorithm.name,
+          remoteBaseCasesConnection,
+        );
+        return normalizedValue;
       }),
     );
   }
 
   async normalizeRow(
+    baseCase: Record<string, string>,
+    columnTypes: { columnName: string; columnType: string }[],
+    algorithmName: string,
+    remoteBaseCasesConnection: {
+      connection: Connection;
+      table: string;
+      schema: string;
+    },
+  ): Promise<any> {
+    const normalizedBaseCase = {};
+    for (const [columnName, columnValue] of Object.entries(baseCase)) {
+      const { columnType } = columnTypes.find(
+        (column) => column.columnName === columnName,
+      );
+      const normalizedValue = await this.normalizeFactor(
+        columnType,
+        columnName,
+        columnValue,
+        algorithmName,
+        remoteBaseCasesConnection,
+      );
+      Object.assign(normalizedBaseCase, normalizedValue);
+    }
+    return normalizedBaseCase;
+  }
+
+  async normalizeFactor(
     columnType: string,
     columnName: string,
     columnValue: string,
@@ -105,7 +204,7 @@ export class SolverService {
       table: string;
       schema: string;
     },
-  ): Promise<any> {
+  ) {
     if (columnType === 'ordinal-columns') {
       const {
         resource: { mi: Mi },
