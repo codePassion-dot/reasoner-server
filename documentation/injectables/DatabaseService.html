@@ -40,7 +40,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >JwtAuthGuard</li>
+  <li >DatabaseService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/jwt-auth.guard.ts</code>
+            <code>src/database/database.service.ts</code>
         </p>
 
 
@@ -79,7 +79,8 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#handleRequest" >handleRequest</a>
+                                    <span class="modifier">Async</span>
+                                <a href="#getDatabaseInstance" >getDatabaseInstance</a>
                             </li>
                         </ul>
                     </td>
@@ -103,24 +104,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="handleRequest"></a>
+                    <a name="getDatabaseInstance"></a>
                     <span class="name">
-                        <span ><b>handleRequest</b></span>
-                        <a href="#handleRequest"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Async</span>
+                        <span ><b>getDatabaseInstance</b></span>
+                        <a href="#getDatabaseInstance"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>handleRequest(err: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, user: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, info: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, context: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, status: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDatabaseInstance(options: <a href="../interfaces/ConnectionOptions.html" target="_self">Partial&lt;ConnectionOptions&gt;</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/auth/jwt-auth.guard.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="8"
+                            class="link-to-prism">src/database/database.service.ts:8</a></div>
                 </td>
             </tr>
 
@@ -141,57 +144,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>err</td>
+                                    <td>options</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>user</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>info</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>status</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../interfaces/ConnectionOptions.html" target="_self" >Partial&lt;ConnectionOptions&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -206,7 +161,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/DatabaseInstance.html" target="_self" >Promise&lt;DatabaseInstance&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -222,48 +177,27 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, UnauthorizedException } from &#x27;@nestjs/common&#x27;;
-import { AuthGuard } from &#x27;@nestjs/passport&#x27;;
-
-const customResponse &#x3D; (info: any) &#x3D;&gt; {
-  if (info &amp;&amp; info.message) {
-    throw new UnauthorizedException({
-      error: {
-        code: &#x27;unauthorized&#x27;,
-        detail: info.message,
-      },
-    });
-  }
-};
-@Injectable()
-export class JwtBaseAuthGuard extends AuthGuard() {
-  handleRequest(err: any, user: any, info: any, context: any, status: any) {
-    customResponse(info);
-    return super.handleRequest(err, user, info, context, status);
-  }
-}
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
+import { Client } from &#x27;pg&#x27;;
+import { ConnectionOptions } from &#x27;src/connection/connection-options.interface&#x27;;
+import { DatabaseInstance } from &#x27;src/parameterizer/parameterizer.types&#x27;;
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard(&#x27;jwt&#x27;) {
-  handleRequest(err: any, user: any, info: any, context: any, status: any) {
-    customResponse(info);
-    return super.handleRequest(err, user, info, context, status);
-  }
-}
-
-@Injectable()
-export class JwtResetAuthGuard extends AuthGuard(&#x27;jwt-reset-password&#x27;) {
-  handleRequest(err: any, user: any, info: any, context: any, status: any) {
-    customResponse(info);
-    return super.handleRequest(err, user, info, context, status);
-  }
-}
-
-@Injectable()
-export class JwtRefreshAuthGuard extends AuthGuard(&#x27;jwt-refresh-token&#x27;) {
-  handleRequest(err: any, user: any, info: any, context: any, status: any) {
-    customResponse(info);
-    return super.handleRequest(err, user, info, context, status);
+export class DatabaseService {
+  async getDatabaseInstance(
+    options: Partial&lt;ConnectionOptions&gt;,
+  ): Promise&lt;DatabaseInstance&gt; {
+    const { username, port, ...rest } &#x3D; options;
+    const client &#x3D; new Client({ ...rest, user: username, port: Number(port) });
+    try {
+      await client.connect();
+      return { resource: client, error: null };
+    } catch (err) {
+      return {
+        resource: null,
+        error: { code: &#x27;connection_refused&#x27;, detail: &#x27;Connection refused&#x27; },
+      };
+    }
   }
 }
 </code></pre>
@@ -309,7 +243,7 @@ export class JwtRefreshAuthGuard extends AuthGuard(&#x27;jwt-refresh-token&#x27;
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'JwtAuthGuard.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'DatabaseService.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

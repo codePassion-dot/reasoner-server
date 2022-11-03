@@ -1,0 +1,1441 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>reasoner documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">reasoner documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >ProblemService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/problem/problem.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#createProblem" >createProblem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAvailableAlgorithms" >getAvailableAlgorithms</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getProblemBeingCreated" >getProblemBeingCreated</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getProblemSourceSelectedColumns" >getProblemSourceSelectedColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getProblemSourceSelectedColumnsNewProblem" >getProblemSourceSelectedColumnsNewProblem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getProblemSourceSelectedOrdinalColumns" >getProblemSourceSelectedOrdinalColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#saveNewRegistrySelectedColumns" >saveNewRegistrySelectedColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#saveProblemAlgorithm" >saveProblemAlgorithm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#saveProblemSource" >saveProblemSource</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#saveProblemSourceColumns" >saveProblemSourceColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#saveProblemSourceColumnsTypes" >saveProblemSourceColumnsTypes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#saveProblemSourceSelectedOrdinalColumns" >saveProblemSourceSelectedOrdinalColumns</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(problemsRepository: <a href="../classes/ProblemsRepository.html" target="_self">ProblemsRepository</a>, baseCaseColumnsRepository: <a href="../classes/BaseCaseColumns.html" target="_self">BaseCaseColumns</a>, MappedValues: <a href="../classes/MappedValuesRepository.html" target="_self">MappedValuesRepository</a>, registriesRepository: <a href="../classes/ProblemsRepository.html" target="_self">ProblemsRepository</a>, algorithmsRepository: <a href="../classes/AlgorithmsRepository.html" target="_self">AlgorithmsRepository</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/problem/problem.service.ts:25</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>problemsRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/ProblemsRepository.html" target="_self" >ProblemsRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>baseCaseColumnsRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/BaseCaseColumns.html" target="_self" >BaseCaseColumns</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>MappedValues</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/MappedValuesRepository.html" target="_self" >MappedValuesRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>registriesRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/ProblemsRepository.html" target="_self" >ProblemsRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>algorithmsRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/AlgorithmsRepository.html" target="_self" >AlgorithmsRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createProblem"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>createProblem</b></span>
+                        <a href="#createProblem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createProblem(connection: <a href="../entitys/Connection.html" target="_self">Partial&lt;Connection&gt;</a>, user: <a href="../entitys/User.html" target="_self">User</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/problem/problem.service.ts:38</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>connection</td>
+                                    <td>
+                                                <code><a href="../entitys/Connection.html" target="_self" >Partial&lt;Connection&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../entitys/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../entitys/Problem.html" target="_self" >Promise&lt;Problem&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAvailableAlgorithms"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getAvailableAlgorithms</b></span>
+                        <a href="#getAvailableAlgorithms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAvailableAlgorithms()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">src/problem/problem.service.ts:197</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProblemBeingCreated"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getProblemBeingCreated</b></span>
+                        <a href="#getProblemBeingCreated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProblemBeingCreated(relations: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/problem/problem.service.ts:47</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>relations</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../entitys/Problem.html" target="_self" >Promise&lt;Problem&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProblemSourceSelectedColumns"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getProblemSourceSelectedColumns</b></span>
+                        <a href="#getProblemSourceSelectedColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProblemSourceSelectedColumns(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">src/problem/problem.service.ts:91</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProblemSourceSelectedColumnsNewProblem"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getProblemSourceSelectedColumnsNewProblem</b></span>
+                        <a href="#getProblemSourceSelectedColumnsNewProblem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProblemSourceSelectedColumnsNewProblem(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/problem/problem.service.ts:101</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProblemSourceSelectedOrdinalColumns"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getProblemSourceSelectedOrdinalColumns</b></span>
+                        <a href="#getProblemSourceSelectedOrdinalColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProblemSourceSelectedOrdinalColumns(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">src/problem/problem.service.ts:145</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveNewRegistrySelectedColumns"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>saveNewRegistrySelectedColumns</b></span>
+                        <a href="#saveNewRegistrySelectedColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveNewRegistrySelectedColumns(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, newRegistry: <a href="../interfaces/NewRegistry.html" target="_self">NewRegistry[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">src/problem/problem.service.ts:179</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>newRegistry</td>
+                                    <td>
+                                                <code><a href="../interfaces/NewRegistry.html" target="_self" >NewRegistry[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveProblemAlgorithm"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>saveProblemAlgorithm</b></span>
+                        <a href="#saveProblemAlgorithm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveProblemAlgorithm(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, algorithm: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/problem/problem.service.ts:202</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>algorithm</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveProblemSource"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>saveProblemSource</b></span>
+                        <a href="#saveProblemSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveProblemSource(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, problemSource: <a href="../interfaces/ProblemSource.html" target="_self">ProblemSource</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/problem/problem.service.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>problemSource</td>
+                                    <td>
+                                                <code><a href="../interfaces/ProblemSource.html" target="_self" >ProblemSource</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveProblemSourceColumns"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>saveProblemSourceColumns</b></span>
+                        <a href="#saveProblemSourceColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveProblemSourceColumns(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, problemSourceSections: <a href="../classes/SaveProblemSourceColumnsDto.html" target="_self">SaveProblemSourceColumnsDto[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">src/problem/problem.service.ts:71</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>problemSourceSections</td>
+                                    <td>
+                                                <code><a href="../classes/SaveProblemSourceColumnsDto.html" target="_self" >SaveProblemSourceColumnsDto[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveProblemSourceColumnsTypes"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>saveProblemSourceColumnsTypes</b></span>
+                        <a href="#saveProblemSourceColumnsTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveProblemSourceColumnsTypes(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, problemSourceColumns: <a href="../classes/SaveProblemSourceColumnsTypeDto.html" target="_self">SaveProblemSourceColumnsTypeDto[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">src/problem/problem.service.ts:125</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>problemSourceColumns</td>
+                                    <td>
+                                                <code><a href="../classes/SaveProblemSourceColumnsTypeDto.html" target="_self" >SaveProblemSourceColumnsTypeDto[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveProblemSourceSelectedOrdinalColumns"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>saveProblemSourceSelectedOrdinalColumns</b></span>
+                        <a href="#saveProblemSourceSelectedOrdinalColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveProblemSourceSelectedOrdinalColumns(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, selectedOrdinalColumns: <a href="../interfaces/ProblemSourceMappedColumns.html" target="_self">ProblemSourceMappedColumns</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">src/problem/problem.service.ts:155</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>problem</td>
+                                    <td>
+                                                <code><a href="../entitys/Problem.html" target="_self" >Problem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>selectedOrdinalColumns</td>
+                                    <td>
+                                                <code><a href="../interfaces/ProblemSourceMappedColumns.html" target="_self" >ProblemSourceMappedColumns</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
+import { Connection } from &#x27;src/connection/connection.entity&#x27;;
+import { SaveProblemSourceColumnsDto } from &#x27;src/parameterizer/dtos/save-problem-source-columns&#x27;;
+import { SaveProblemSourceColumnsTypeDto } from &#x27;src/parameterizer/dtos/save-problem-source-columns-types.dto&#x27;;
+import {
+  NewRegistry,
+  ProblemSource,
+  ProblemSourceMappedColumns,
+  ProbleSourceSelectedColumnsNewProblem,
+} from &#x27;src/parameterizer/parameterizer.types&#x27;;
+import { User } from &#x27;src/users/user.entity&#x27;;
+import { Not } from &#x27;typeorm&#x27;;
+import { BaseCaseColumn } from &#x27;./entities/base-case-column.entity&#x27;;
+import { MappedValue } from &#x27;./entities/mapped-value.entity&#x27;;
+import { Registry } from &#x27;./entities/registry.entity&#x27;;
+import { Problem } from &#x27;./entities/problem.entity&#x27;;
+import { BaseCaseColumns } from &#x27;./repositories/base-case-column.repository&#x27;;
+import { MappedValuesRepository } from &#x27;./repositories/mapped-values.repository&#x27;;
+import { ProblemsRepository } from &#x27;./repositories/problems.repository&#x27;;
+import { Algorithm } from &#x27;./entities/algorithm.entity&#x27;;
+import { AlgorithmsRepository } from &#x27;./repositories/algorithms.repository&#x27;;
+
+@Injectable()
+export class ProblemService {
+  constructor(
+    @InjectRepository(Problem) private problemsRepository: ProblemsRepository,
+    @InjectRepository(BaseCaseColumn)
+    private baseCaseColumnsRepository: BaseCaseColumns,
+    @InjectRepository(MappedValue)
+    private MappedValues: MappedValuesRepository,
+    @InjectRepository(Registry)
+    private registriesRepository: ProblemsRepository,
+    @InjectRepository(Algorithm)
+    private algorithmsRepository: AlgorithmsRepository,
+  ) {}
+
+  async createProblem(
+    connection: Partial&lt;Connection&gt;,
+    user: User,
+  ): Promise&lt;Problem&gt; {
+    const problem &#x3D; this.problemsRepository.create({ connection, user });
+    await this.problemsRepository.save(problem);
+    return problem;
+  }
+
+  async getProblemBeingCreated(relations: string[]): Promise&lt;Problem&gt; {
+    const problem &#x3D; await this.problemsRepository.findOne({
+      where: { isBeingCreated: true },
+      relations,
+    });
+    if (!problem) {
+      return null;
+    }
+    return problem;
+  }
+
+  async saveProblemSource(
+    problem: Problem,
+    problemSource: ProblemSource,
+  ): Promise&lt;any&gt; {
+    problem &#x3D; {
+      ...problem,
+      schema: problemSource.schema,
+      table: problemSource.table,
+    };
+    const result &#x3D; await this.problemsRepository.save(problem);
+    return { resource: result };
+  }
+
+  async saveProblemSourceColumns(
+    problem: Problem,
+    problemSourceSections: SaveProblemSourceColumnsDto[],
+  ): Promise&lt;{ resource: Problem }&gt; {
+    for (const section of problemSourceSections) {
+      for (const option of section.options) {
+        const columnToSave &#x3D; new BaseCaseColumn();
+        columnToSave.name &#x3D; option;
+        columnToSave.target &#x3D; section.droppableId;
+        columnToSave.problem &#x3D; problem;
+        await this.baseCaseColumnsRepository.save(columnToSave);
+      }
+    }
+    const result &#x3D; await this.problemsRepository.findOne({
+      where: { id: problem.id },
+      relations: [&#x27;columns&#x27;],
+    });
+    return { resource: result };
+  }
+
+  async getProblemSourceSelectedColumns(
+    problem: Problem,
+  ): Promise&lt;{ resource: { columnName: string }[] }&gt; {
+    const columns &#x3D; await this.baseCaseColumnsRepository.find({
+      where: { problem, target: Not(&#x27;goal-factor&#x27;) },
+    });
+    const result &#x3D; columns.map(({ name }) &#x3D;&gt; ({ columnName: name }));
+    return { resource: result };
+  }
+
+  async getProblemSourceSelectedColumnsNewProblem(
+    problem: Problem,
+  ): Promise&lt;{ resource: ProbleSourceSelectedColumnsNewProblem[] }&gt; {
+    const columns &#x3D; await this.baseCaseColumnsRepository.find({
+      where: { problem, target: Not(&#x27;goal-factor&#x27;) },
+      relations: [&#x27;mappedValues&#x27;],
+    });
+    const result &#x3D; columns.map(({ name, type, mappedValues }) &#x3D;&gt; {
+      const base &#x3D; {
+        columnName: name,
+        type,
+        options: mappedValues.map(({ ordinalValue }) &#x3D;&gt; ordinalValue),
+      };
+      if (type &#x3D;&#x3D;&#x3D; &#x27;boolean-columns&#x27;) {
+        return {
+          ...base,
+          options: [&#x27;true&#x27;, &#x27;false&#x27;],
+        };
+      }
+      return base;
+    });
+    return { resource: result };
+  }
+
+  async saveProblemSourceColumnsTypes(
+    problem: Problem,
+    problemSourceColumns: SaveProblemSourceColumnsTypeDto[],
+  ): Promise&lt;any&gt; {
+    for (const section of problemSourceColumns) {
+      for (const option of section.options) {
+        const column &#x3D; await this.baseCaseColumnsRepository.findOne({
+          where: { name: option, problem },
+        });
+        column.type &#x3D; section.droppableId;
+        await this.baseCaseColumnsRepository.save(column);
+      }
+    }
+    const result &#x3D; await this.problemsRepository.findOne({
+      where: { id: problem.id },
+      relations: [&#x27;columns&#x27;],
+    });
+    return { resource: result };
+  }
+
+  async getProblemSourceSelectedOrdinalColumns(
+    problem: Problem,
+  ): Promise&lt;{ resource: { columnName: string }[] }&gt; {
+    const columns &#x3D; await this.baseCaseColumnsRepository.find({
+      where: { problem, type: &#x27;ordinal-columns&#x27; },
+    });
+    const result &#x3D; columns.map(({ name }) &#x3D;&gt; ({ columnName: name }));
+    return { resource: result };
+  }
+
+  async saveProblemSourceSelectedOrdinalColumns(
+    problem: Problem,
+    selectedOrdinalColumns: ProblemSourceMappedColumns,
+  ): Promise&lt;{ resource: BaseCaseColumn }&gt; {
+    const columns &#x3D; Object.entries(selectedOrdinalColumns);
+    for (const [columnName, mappedValues] of columns) {
+      const column &#x3D; await this.baseCaseColumnsRepository.findOne({
+        where: { name: columnName, problem },
+      });
+      for (const { ordinalValue, mappedValue } of mappedValues) {
+        const mappedValueToSave &#x3D; new MappedValue();
+        mappedValueToSave.baseCaseColumn &#x3D; column;
+        mappedValueToSave.ordinalValue &#x3D; ordinalValue;
+        mappedValueToSave.mappedValue &#x3D; mappedValue;
+        await this.MappedValues.save(mappedValueToSave);
+      }
+    }
+    const result &#x3D; await this.baseCaseColumnsRepository.findOne({
+      where: { problem, name: columns[0][0] },
+      relations: [&#x27;mappedValues&#x27;],
+    });
+    return { resource: result };
+  }
+
+  async saveNewRegistrySelectedColumns(
+    problem: Problem,
+    newRegistry: NewRegistry[],
+  ): Promise&lt;{ resource: Problem }&gt; {
+    for (const entry of newRegistry) {
+      const registry &#x3D; new Registry();
+      registry.problem &#x3D; problem;
+      registry.name &#x3D; entry.columnName;
+      registry.value &#x3D; String(entry.value);
+      await this.registriesRepository.save(registry);
+    }
+    const result &#x3D; await this.problemsRepository.findOne({
+      where: { id: problem.id },
+      relations: [&#x27;registries&#x27;],
+    });
+    return { resource: result };
+  }
+
+  async getAvailableAlgorithms(): Promise&lt;{ resource: Algorithm[] }&gt; {
+    const result &#x3D; await this.algorithmsRepository.find();
+    return { resource: result };
+  }
+
+  async saveProblemAlgorithm(
+    problem: Problem,
+    algorithm: string,
+  ): Promise&lt;{ resource: Problem }&gt; {
+    const algorithmToSave &#x3D; await this.algorithmsRepository.findOne({
+      where: { name: algorithm },
+    });
+    problem.algorithm &#x3D; algorithmToSave;
+    const result &#x3D; await this.problemsRepository.save(problem);
+    return { resource: result };
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProblemService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
