@@ -237,4 +237,14 @@ export class ProblemService {
       },
     };
   }
+
+  async getBaseColumnMappedValues(
+    columnName: string,
+  ): Promise<{ resource: { mappedValues: MappedValue[] } }> {
+    const column = await this.baseCaseColumnsRepository.findOne({
+      where: { name: columnName },
+      relations: ['mappedValues'],
+    });
+    return { resource: { mappedValues: column.mappedValues } };
+  }
 }

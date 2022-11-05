@@ -11,7 +11,7 @@ export class SolverService {
     private connectionService: ConnectionService,
   ) {}
 
-  async solve(): Promise<any> {
+  async solve(): Promise<Record<string, string | number>> {
     const problem = await this.problemService.getProblemBeingCreated([
       'columns',
       'connection',
@@ -34,12 +34,13 @@ export class SolverService {
       columnName: column.name,
       columnType: column.type,
     }));
-    // all the base cases fetched fromt the remote database
+    // all the base cases fetched from the remote database
     const allBaseCases = await this.connectionService.getAllRows(
       connection,
       table,
       schema,
     );
+
     const formattedBaseCases = allBaseCases.map((baseCase) =>
       Object.entries(baseCase)
         .filter(([columnName]) => {
@@ -81,15 +82,16 @@ export class SolverService {
     );
 
     if (algorithm.name === 'euclidian-distance') {
-      this.getNearestNeighbor(
+      const nearestNeighbor = await this.getNearestNeighbor(
         normalizedBaseCases,
         normalizedNewCase,
         remoteBaseCasesConnection,
         (caseBaseFactorX: number, newCaseFactorY: number) =>
           Math.sqrt(Math.pow(caseBaseFactorX - newCaseFactorY, 2)),
       );
+      return nearestNeighbor;
     } else if (algorithm.name === 'manhattan-distance') {
-      this.getNearestNeighbor(
+      const nearestNeighbor = await this.getNearestNeighbor(
         normalizedBaseCases,
         normalizedNewCase,
         remoteBaseCasesConnection,
@@ -100,6 +102,42 @@ export class SolverService {
           rMin: number,
         ) => 1 - Math.abs((caseBaseFactorX - newCaseFactorY) / (rMax + rMin)),
       );
+      return nearestNeighbor;
+    }
+  }
+
+  async getMinAndMax(
+    columnName: string,
+    remoteBaseCasesConnection: {
+      connection: Connection;
+      table: string;
+      schema: string;
+    },
+  ) {
+    const {
+      resource: { mappedValues },
+    } = await this.problemService.getBaseColumnMappedValues(columnName);
+    if (mappedValues.length) {
+      return mappedValues.reduce(
+        (acc: { min: number; max: number }, { mappedValue }) => {
+          if (mappedValue < acc.min) {
+            acc.min = mappedValue;
+          }
+          if (mappedValue > acc.max) {
+            acc.max = mappedValue;
+          }
+          return acc;
+        },
+        { min: Infinity, max: -Infinity },
+      );
+    } else {
+      const {
+        resource: { min, max },
+      } = await this.connectionService.getNumericColumnMinMax({
+        ...remoteBaseCasesConnection,
+        columnName,
+      });
+      return { min, max };
     }
   }
 
@@ -117,31 +155,52 @@ export class SolverService {
       rMax?: number,
       rMin?: number,
     ) => number,
-  ) {
+  ): Promise<Record<string, string | number>> {
     const [, newCaseColumnValue] = Object.entries(normalizedNewCase)[0];
-    return Promise.all(
-      normalizedBaseCases.map(async (baseCase) => {
-        const [columnName, columnValue] = Object.entries(baseCase)[0];
-        const {
-          resource: { min, max },
-        } = await this.connectionService.getNumericColumnMinMax({
-          ...remoteBaseCasesConnection,
-          columnName,
-        });
-        if (
-          typeof columnValue === 'number' &&
-          typeof newCaseColumnValue === 'number'
-        ) {
-          const distance = distanceFunction(
-            columnValue,
-            newCaseColumnValue,
-            max,
-            min,
-          );
-          return { ...baseCase, distance };
-        }
-      }),
+    const globalSimilitudes = await Promise.all(
+      normalizedBaseCases.map(async (baseCase) =>
+        Object.entries(baseCase).reduce(
+          async (accPromise, [columnName, columnValue]) => {
+            const { min, max } = await this.getMinAndMax(
+              columnName,
+              remoteBaseCasesConnection,
+            );
+            const acc = await accPromise;
+            if (
+              typeof columnValue === 'number' &&
+              typeof newCaseColumnValue === 'number'
+            ) {
+              const distance = distanceFunction(
+                columnValue,
+                newCaseColumnValue,
+                max,
+                min,
+              );
+              return {
+                ...acc,
+                [columnName]: distance,
+                globalSimilitude: Number(acc.globalSimilitude) + distance,
+              };
+            }
+            return {
+              ...acc,
+              [columnName]: columnValue,
+              globalSimilitude: Number(acc.globalSimilitude),
+            };
+          },
+          Promise.resolve({
+            [Object.keys(baseCase)[0]]: baseCase[Object.keys(baseCase)[0]],
+            globalSimilitude: 0,
+          }),
+        ),
+      ),
     );
+
+    const nearestNeighbor = globalSimilitudes.reduce((acc, curr) =>
+      acc.globalSimilitude < curr.globalSimilitude ? acc : curr,
+    );
+
+    return nearestNeighbor;
   }
 
   async normalizeBaseCases(
