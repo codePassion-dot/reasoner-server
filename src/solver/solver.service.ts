@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Connection } from 'src/connection/connection.entity';
 import { ConnectionService } from 'src/connection/connection.service';
 import { Algorithm } from 'src/problem/entities/algorithm.entity';
 import { ProblemService } from 'src/problem/problem.service';
+import { RemoteBaseCasesConnection } from './solver.types';
 
 @Injectable()
 export class SolverService {
@@ -108,11 +108,7 @@ export class SolverService {
 
   async getMinAndMax(
     columnName: string,
-    remoteBaseCasesConnection: {
-      connection: Connection;
-      table: string;
-      schema: string;
-    },
+    remoteBaseCasesConnection: RemoteBaseCasesConnection,
   ) {
     const {
       resource: { mappedValues },
@@ -144,11 +140,7 @@ export class SolverService {
   async getNearestNeighbor(
     normalizedBaseCases: Record<string, number | string>[],
     normalizedNewCase: Record<string, number | string>,
-    remoteBaseCasesConnection: {
-      connection: Connection;
-      table: string;
-      schema: string;
-    },
+    remoteBaseCasesConnection: RemoteBaseCasesConnection,
     distanceFunction: (
       caseBaseFactorX: number,
       newCaseFactorY: number,
@@ -207,11 +199,7 @@ export class SolverService {
     columnTypes: { columnName: string; columnType: string }[],
     allBaseCases: Record<string, string>[],
     algorithm: Algorithm,
-    remoteBaseCasesConnection: {
-      connection: Connection;
-      table: string;
-      schema: string;
-    },
+    remoteBaseCasesConnection: RemoteBaseCasesConnection,
   ): Promise<Record<string, number | string>[]> {
     return Promise.all(
       allBaseCases.map(async (baseCase) => {
@@ -230,11 +218,7 @@ export class SolverService {
     baseCase: Record<string, string>,
     columnTypes: { columnName: string; columnType: string }[],
     algorithmName: string,
-    remoteBaseCasesConnection: {
-      connection: Connection;
-      table: string;
-      schema: string;
-    },
+    remoteBaseCasesConnection: RemoteBaseCasesConnection,
   ): Promise<any> {
     const normalizedBaseCase = {};
     for (const [columnName, columnValue] of Object.entries(baseCase)) {
@@ -258,11 +242,7 @@ export class SolverService {
     columnName: string,
     columnValue: string,
     algorithmName: string,
-    remoteBaseCasesConnection: {
-      connection: Connection;
-      table: string;
-      schema: string;
-    },
+    remoteBaseCasesConnection: RemoteBaseCasesConnection,
   ) {
     if (columnType === 'ordinal-columns') {
       const {
