@@ -119,8 +119,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="10"
-                            class="link-to-prism">src/auth/jwt-auth.guard.ts:10</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/auth/jwt-auth.guard.ts:24</a></div>
                 </td>
             </tr>
 
@@ -224,19 +224,45 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, UnauthorizedException } from &#x27;@nestjs/common&#x27;;
 import { AuthGuard } from &#x27;@nestjs/passport&#x27;;
-import { JsonWebTokenError } from &#x27;jsonwebtoken&#x27;;
+
+const customResponse &#x3D; (info: any) &#x3D;&gt; {
+  if (info &amp;&amp; info.message) {
+    throw new UnauthorizedException({
+      error: {
+        code: &#x27;unauthorized&#x27;,
+        detail: info.message,
+      },
+    });
+  }
+};
+@Injectable()
+export class JwtBaseAuthGuard extends AuthGuard() {
+  handleRequest(err: any, user: any, info: any, context: any, status: any) {
+    customResponse(info);
+    return super.handleRequest(err, user, info, context, status);
+  }
+}
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard([
-  &#x27;jwt-reset-password&#x27;,
-  &#x27;jwt-refresh-token&#x27;,
-]) {
+export class JwtAuthGuard extends AuthGuard(&#x27;jwt&#x27;) {
   handleRequest(err: any, user: any, info: any, context: any, status: any) {
-    if (info &amp;&amp; info[1] instanceof JsonWebTokenError) {
-      throw new UnauthorizedException({
-        error: { code: &#x27;unauthorized&#x27;, detail: info[1].message },
-      });
-    }
+    customResponse(info);
+    return super.handleRequest(err, user, info, context, status);
+  }
+}
+
+@Injectable()
+export class JwtResetAuthGuard extends AuthGuard(&#x27;jwt-reset-password&#x27;) {
+  handleRequest(err: any, user: any, info: any, context: any, status: any) {
+    customResponse(info);
+    return super.handleRequest(err, user, info, context, status);
+  }
+}
+
+@Injectable()
+export class JwtRefreshAuthGuard extends AuthGuard(&#x27;jwt-refresh-token&#x27;) {
+  handleRequest(err: any, user: any, info: any, context: any, status: any) {
+    customResponse(info);
     return super.handleRequest(err, user, info, context, status);
   }
 }

@@ -85,6 +85,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#checkIfLoggedIn" >checkIfLoggedIn</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#recoverPassword" >recoverPassword</a>
                             </li>
                             <li>
@@ -124,6 +128,80 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="checkIfLoggedIn"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>checkIfLoggedIn</b></span>
+                        <a href="#checkIfLoggedIn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkIfLoggedIn(req)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;check-if-logged-in&#x27;)<br />@UseGuards(JwtRefreshAuthGuard)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">src/auth/auth.controller.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>req</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="recoverPassword"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -149,8 +227,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">src/auth/auth.controller.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/auth/auth.controller.ts:152</a></div>
                 </td>
             </tr>
 
@@ -233,7 +311,7 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@ApiOperation(refreshTokenDescription)<br />@ApiResponse(refreshTokenSuccessfulResponse)<br />@ApiResponse(refreshTokenUnauthorizedResponse)<br />@UseGuards(JwtAuthGuard)<br />@Get(&#x27;refresh-token&#x27;)<br /></code>
+                    <code>@ApiOperation(refreshTokenDescription)<br />@ApiResponse(refreshTokenSuccessfulResponse)<br />@ApiResponse(refreshTokenUnauthorizedResponse)<br />@UseGuards(JwtRefreshAuthGuard)<br />@Get(&#x27;refresh-token&#x27;)<br /></code>
                 </td>
             </tr>
 
@@ -322,14 +400,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@ApiOperation(resetPasswordDescription)<br />@ApiResponse(resetPasswordSuccessfulResponse)<br />@ApiResponse(resetPasswordUnauthorizedResponse)<br />@ApiBody(resetPasswordCorrectPayload)<br />@UseGuards(JwtAuthGuard)<br />@Patch(&#x27;reset-password&#x27;)<br /></code>
+                    <code>@ApiOperation(resetPasswordDescription)<br />@ApiResponse(resetPasswordSuccessfulResponse)<br />@ApiResponse(resetPasswordUnauthorizedResponse)<br />@ApiBody(resetPasswordCorrectPayload)<br />@UseGuards(JwtResetAuthGuard)<br />@Patch(&#x27;reset-password&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">src/auth/auth.controller.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">src/auth/auth.controller.ts:171</a></div>
                 </td>
             </tr>
 
@@ -588,7 +666,7 @@ import { Response, Request as RequestType } from &#x27;express&#x27;;
 import { User } from &#x27;src/users/user.entity&#x27;;
 import { AuthService } from &#x27;./auth.service&#x27;;
 import { CreateUserDto } from &#x27;./create-user.dto&#x27;;
-import { JwtAuthGuard } from &#x27;./jwt-auth.guard&#x27;;
+import { JwtRefreshAuthGuard, JwtResetAuthGuard } from &#x27;./jwt-auth.guard&#x27;;
 import { LocalAuthGuard } from &#x27;./local-auth.guard&#x27;;
 import * as SendGrid from &#x27;@sendgrid/mail&#x27;;
 import {
@@ -666,7 +744,7 @@ export class AuthController {
   @ApiOperation(refreshTokenDescription)
   @ApiResponse(refreshTokenSuccessfulResponse)
   @ApiResponse(refreshTokenUnauthorizedResponse)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtRefreshAuthGuard)
   @Get(&#x27;refresh-token&#x27;)
   async refreshToken(
     @Request()
@@ -702,6 +780,22 @@ export class AuthController {
     response.status(202).json({ error: null, resource: rest });
   }
 
+  @Get(&#x27;check-if-logged-in&#x27;)
+  @UseGuards(JwtRefreshAuthGuard)
+  async checkIfLoggedIn(
+    @Request()
+    req: RequestType &amp; {
+      user: { userId: string; clientRefreshToken: string };
+    } &amp; {
+      error: { code: string; detail: string };
+    },
+  ): Promise&lt;{
+    error: { code: string; detail: string } | null;
+    resource: { userId: string } | null;
+  }&gt; {
+    return { error: null, resource: { userId: req.user.userId } };
+  }
+
   @ApiOperation(recovePasswordDescription)
   @ApiResponse(recoverPasswordSuccessfulResponse)
   @ApiResponse(recoverPasswordBadRequest)
@@ -723,7 +817,7 @@ export class AuthController {
   @ApiResponse(resetPasswordSuccessfulResponse)
   @ApiResponse(resetPasswordUnauthorizedResponse)
   @ApiBody(resetPasswordCorrectPayload)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtResetAuthGuard)
   @Patch(&#x27;reset-password&#x27;)
   async resetPassword(
     @Body(&#x27;password&#x27;) password: string,
