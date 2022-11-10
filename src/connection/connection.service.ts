@@ -170,4 +170,46 @@ export class ConnectionService {
     }
     return columns;
   }
+
+  async getAllRows(
+    connection: Connection,
+    table: string,
+    schema: string,
+  ): Promise<Record<string, string>[]> {
+    const { resource: db, error } =
+      await this.databaseService.getDatabaseInstance(connection);
+    if (!error) {
+      const { rows } = await db.query(`SELECT * FROM ${schema}.${table};`);
+      return rows.map((row) => {
+        const newRow = {};
+        for (const [key, value] of Object.entries(row)) {
+          newRow[key] = value;
+        }
+        return newRow;
+      });
+    }
+    return [];
+  }
+
+  async getNumericColumnMinMax({
+    connection,
+    table,
+    schema,
+    columnName,
+  }: {
+    connection: Connection;
+    table: string;
+    schema: string;
+    columnName: string;
+  }): Promise<{ resource: { min: number; max: number } | null }> {
+    const { resource: db, error } =
+      await this.databaseService.getDatabaseInstance(connection);
+    if (!error) {
+      const { rows } = await db.query(
+        `SELECT MIN(${columnName}) AS min, MAX(${columnName}) AS max FROM ${schema}.${table};`,
+      );
+      return { resource: { min: rows[0].min, max: rows[0].max } };
+    }
+    return { resource: null };
+  }
 }
