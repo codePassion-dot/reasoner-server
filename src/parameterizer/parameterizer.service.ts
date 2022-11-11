@@ -20,6 +20,7 @@ import {
   ProblemSourceSchema,
   ProblemSourceTable,
   ProbleSourceSelectedColumnsNewProblem,
+  SaveProblemSourceColumnsType,
 } from './parameterizer.types';
 
 @Injectable()
@@ -235,9 +236,37 @@ export class ParameterizerService {
         resource: null,
       });
     }
+
+    const literalColumnsWithDistinctValues =
+      await this.connectionService.getProblemSourceDistinctValues(
+        problem.connection,
+        problem.table,
+        problem.schema,
+        columns
+          .find(({ droppableId }) => droppableId === 'literal-columns')
+          .options.map((columnName) => ({ columnName })),
+      );
+
+    const columnsWithLiteralColumnsUpdated = columns.map(
+      (column): SaveProblemSourceColumnsType => {
+        if (column.droppableId === 'literal-columns') {
+          return {
+            ...column,
+            literalColumns: literalColumnsWithDistinctValues.reduce(
+              (acc, curr) => ({
+                ...acc,
+                [curr.columnName]: curr.values,
+              }),
+              {},
+            ),
+          };
+        }
+        return column;
+      },
+    );
     const resource = await this.problemService.saveProblemSourceColumnsTypes(
       problem,
-      columns,
+      columnsWithLiteralColumnsUpdated,
     );
     return resource;
   }
@@ -260,7 +289,7 @@ export class ParameterizerService {
     const { resource } =
       await this.problemService.getProblemSourceSelectedOrdinalColumns(problem);
 
-    const columns = await this.connectionService.getProblemSourceOrdinalValues(
+    const columns = await this.connectionService.getProblemSourceDistinctValues(
       problem.connection,
       problem.table,
       problem.schema,

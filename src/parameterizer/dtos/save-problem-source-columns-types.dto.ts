@@ -7,6 +7,7 @@ export class SaveProblemSourceColumnsTypeDto {
     ordinalColumns: 'ordinal-columns',
     booleanColumns: 'boolean-columns',
     numericColumns: 'numeric-columns',
+    literalColumns: 'literal-columns',
   })
   droppableId: string;
   @IsArray()
