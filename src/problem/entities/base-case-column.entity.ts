@@ -5,6 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { LiteralValue } from './literal-value.entity';
 import { MappedValue } from './mapped-value.entity';
 import { Problem } from './problem.entity';
 
@@ -25,4 +26,6 @@ export class BaseCaseColumn {
   problem: Problem;
   @OneToMany(() => MappedValue, (mappedValue) => mappedValue.baseCaseColumn)
   mappedValues: MappedValue[];
+  @OneToMany(() => LiteralValue, (literalValue) => literalValue.baseCaseColumn)
+  literalValues: LiteralValue[];
 }

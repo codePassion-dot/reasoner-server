@@ -148,7 +148,7 @@ export class ConnectionService {
     return [];
   }
 
-  async getProblemSourceOrdinalValues(
+  async getProblemSourceDistinctValues(
     connection: Connection,
     table: string,
     schema: string,

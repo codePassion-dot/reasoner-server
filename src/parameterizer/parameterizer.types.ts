@@ -40,6 +40,13 @@ export interface ProblemSourceColumn {
   columnName: string;
 }
 
+export interface SaveProblemSourceColumnsType {
+  droppableId: string;
+  options: string[];
+  sectionTitle: string;
+  literalColumns?: Record<string, string[]>;
+}
+
 export interface ProblemSourceMappedColumns {
   [key: string]: { ordinalValue: string; mappedValue: number }[];
 }

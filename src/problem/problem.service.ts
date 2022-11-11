@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'src/connection/connection.entity';
 import { SaveProblemSourceColumnsDto } from 'src/parameterizer/dtos/save-problem-source-columns';
-import { SaveProblemSourceColumnsTypeDto } from 'src/parameterizer/dtos/save-problem-source-columns-types.dto';
 import {
   NewRegistry,
   ProblemSource,
   ProblemSourceMappedColumns,
   ProbleSourceSelectedColumnsNewProblem,
+  SaveProblemSourceColumnsType,
 } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
 import { Not } from 'typeorm';
@@ -20,6 +20,7 @@ import { MappedValuesRepository } from './repositories/mapped-values.repository'
 import { ProblemsRepository } from './repositories/problems.repository';
 import { Algorithm } from './entities/algorithm.entity';
 import { AlgorithmsRepository } from './repositories/algorithms.repository';
+import { LiteralValue } from './entities/literal-value.entity';
 
 @Injectable()
 export class ProblemService {
@@ -33,6 +34,8 @@ export class ProblemService {
     private registriesRepository: ProblemsRepository,
     @InjectRepository(Algorithm)
     private algorithmsRepository: AlgorithmsRepository,
+    @InjectRepository(LiteralValue)
+    private literalValuesRepository: ProblemsRepository,
   ) {}
 
   async createProblem(
@@ -103,28 +106,36 @@ export class ProblemService {
   ): Promise<{ resource: ProbleSourceSelectedColumnsNewProblem[] }> {
     const columns = await this.baseCaseColumnsRepository.find({
       where: { problem, target: Not('goal-factor') },
-      relations: ['mappedValues'],
+      relations: ['mappedValues', 'literalValues'],
     });
-    const result = columns.map(({ name, type, mappedValues }) => {
-      const base = {
-        columnName: name,
-        type,
-        options: mappedValues.map(({ ordinalValue }) => ordinalValue),
-      };
-      if (type === 'boolean-columns') {
-        return {
-          ...base,
-          options: ['true', 'false'],
+    const result = columns.map(
+      ({ name, type, mappedValues, literalValues }) => {
+        const base = {
+          columnName: name,
+          type,
+          options: mappedValues.map(({ ordinalValue }) => ordinalValue),
         };
-      }
-      return base;
-    });
+        if (type === 'boolean-columns') {
+          return {
+            ...base,
+            options: ['true', 'false'],
+          };
+        }
+        if (type === 'literal-columns') {
+          return {
+            ...base,
+            options: literalValues.map(({ value }) => value),
+          };
+        }
+        return base;
+      },
+    );
     return { resource: result };
   }
 
   async saveProblemSourceColumnsTypes(
     problem: Problem,
-    problemSourceColumns: SaveProblemSourceColumnsTypeDto[],
+    problemSourceColumns: SaveProblemSourceColumnsType[],
   ): Promise<any> {
     for (const section of problemSourceColumns) {
       for (const option of section.options) {
@@ -133,6 +144,14 @@ export class ProblemService {
         });
         column.type = section.droppableId;
         await this.baseCaseColumnsRepository.save(column);
+        if (section.droppableId === 'literal-columns') {
+          for (const literalValue of section.literalColumns[option]) {
+            const literalValueToSave = new LiteralValue();
+            literalValueToSave.value = literalValue;
+            literalValueToSave.baseCaseColumn = column;
+            await this.literalValuesRepository.save(literalValueToSave);
+          }
+        }
       }
     }
     const result = await this.problemsRepository.findOne({
