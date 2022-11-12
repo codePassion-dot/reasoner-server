@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConnectionService } from 'src/connection/connection.service';
 import { Algorithm } from 'src/problem/entities/algorithm.entity';
 import { ProblemService } from 'src/problem/problem.service';
-import { RemoteBaseCasesConnection } from './solver.types';
+import { RemoteBaseCasesConnection, SolverResult } from './solver.types';
 
 @Injectable()
 export class SolverService {
@@ -11,7 +11,7 @@ export class SolverService {
     private connectionService: ConnectionService,
   ) {}
 
-  async solve(): Promise<Record<string, string | number>> {
+  async solve(): Promise<SolverResult> {
     const problem = await this.problemService.getProblemBeingCreated([
       'columns',
       'connection',
@@ -30,10 +30,13 @@ export class SolverService {
       });
     }
     // type for each base case identified by column name
-    const columnTypes = columns.map((column) => ({
-      columnName: column.name,
-      columnType: column.type,
-    }));
+    //
+    const columnTypes = columns
+      .filter((column) => column.target !== 'goal-factor')
+      .map(({ name, type }) => ({
+        columnName: name,
+        columnType: type,
+      }));
     // all the base cases fetched from the remote database
     const allBaseCases = await this.connectionService.getAllRows(
       connection,
@@ -89,7 +92,13 @@ export class SolverService {
         (caseBaseFactorX: number, newCaseFactorY: number) =>
           Math.sqrt(Math.pow(caseBaseFactorX - newCaseFactorY, 2)),
       );
-      return nearestNeighbor;
+      return {
+        resource: {
+          initialProblem: problem.registries,
+          umbral: 0.8,
+          result: nearestNeighbor,
+        },
+      };
     } else if (algorithm.name === 'manhattan-distance') {
       const nearestNeighbor = await this.getNearestNeighbor(
         normalizedBaseCases,
@@ -102,7 +111,13 @@ export class SolverService {
           rMin: number,
         ) => 1 - Math.abs((caseBaseFactorX - newCaseFactorY) / (rMax + rMin)),
       );
-      return nearestNeighbor;
+      return {
+        resource: {
+          initialProblem: problem.registries,
+          umbral: 0.8,
+          result: nearestNeighbor,
+        },
+      };
     }
   }
 
@@ -192,7 +207,26 @@ export class SolverService {
       acc.globalSimilitude < curr.globalSimilitude ? acc : curr,
     );
 
-    return nearestNeighbor;
+    const isAcceptable =
+      nearestNeighbor.globalSimilitude <=
+      Object.keys(nearestNeighbor).reduce((acc, curr) => {
+        if (curr !== 'globalSimilitude') {
+          return acc + 1;
+        }
+        return acc;
+      }, 0) *
+        0.2;
+
+    if (isAcceptable) {
+      return nearestNeighbor;
+    }
+    throw new NotFoundException({
+      error: {
+        code: 'no_nearest_neighbor_found',
+        detail: 'No nearest neighbor was found',
+      },
+      resource: null,
+    });
   }
 
   async normalizeBaseCases(

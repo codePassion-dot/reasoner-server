@@ -98,9 +98,9 @@ export class AuthController {
   async refreshToken(
     @Request()
     req: RequestType & {
-      user: { userId: string; clientRefreshToken: string };
-    } & {
-      error: { code: string; detail: string };
+      user: { userId: string; clientRefreshToken: string } & {
+        error: { code: string; detail: string };
+      };
     },
     @Res({ passthrough: true }) response: Response,
   ) {
@@ -110,9 +110,9 @@ export class AuthController {
       sameSite: 'none',
       secure: true,
     });
-    if (req.error) {
+    if (user.error) {
       // if reuse detected
-      return response.status(401).json(req.error);
+      return response.status(401).json(user.error);
     }
     const { resource } = await this.authService.refreshToken(
       user.userId,
