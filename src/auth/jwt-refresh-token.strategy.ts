@@ -6,6 +6,8 @@ import { Request } from 'express';
 import { UsersService } from 'src/users/users.service';
 import { RefreshTokensRepository } from './refreshTokens.repository';
 import * as bcrypt from 'bcrypt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { RefreshToken } from './refreshToken.entity';
 
 @Injectable()
 export class JwtStrategyRefreshToken extends PassportStrategy(
@@ -15,6 +17,7 @@ export class JwtStrategyRefreshToken extends PassportStrategy(
   constructor(
     configService: ConfigService,
     private usersService: UsersService,
+    @InjectRepository(RefreshToken)
     private refreshTokensRepository: RefreshTokensRepository,
   ) {
     super({
@@ -35,8 +38,8 @@ export class JwtStrategyRefreshToken extends PassportStrategy(
       },
       relations: ['refreshTokens'],
     });
-    const refreshTokenMatch = foundUser.refreshTokens.some(({ refreshToken }) =>
-      bcrypt.compare(clientRefreshToken, refreshToken),
+    const refreshTokenMatch = foundUser?.refreshTokens.some(
+      ({ refreshToken }) => bcrypt.compare(clientRefreshToken, refreshToken),
     );
     // Detected refresh token reuse we should remove all existing refresh tokens
     if (!refreshTokenMatch) {
