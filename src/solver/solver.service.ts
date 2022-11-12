@@ -6,6 +6,7 @@ import { RemoteBaseCasesConnection, SolverResult } from './solver.types';
 
 @Injectable()
 export class SolverService {
+  ACCEPTANCE_UMBRAL = 0.8;
   constructor(
     private problemService: ProblemService,
     private connectionService: ConnectionService,
@@ -85,7 +86,7 @@ export class SolverService {
     );
 
     if (algorithm.name === 'euclidian-distance') {
-      const nearestNeighbor = await this.getNearestNeighbor(
+      const { nearestNeighbor, similitude } = await this.getNearestNeighbor(
         normalizedBaseCases,
         normalizedNewCase,
         remoteBaseCasesConnection,
@@ -95,12 +96,15 @@ export class SolverService {
       return {
         resource: {
           initialProblem: problem.registries,
-          umbral: 0.8,
+          umbral: {
+            acceptanceUmbral: this.ACCEPTANCE_UMBRAL,
+            similitude,
+          },
           result: nearestNeighbor,
         },
       };
     } else if (algorithm.name === 'manhattan-distance') {
-      const nearestNeighbor = await this.getNearestNeighbor(
+      const { nearestNeighbor, similitude } = await this.getNearestNeighbor(
         normalizedBaseCases,
         normalizedNewCase,
         remoteBaseCasesConnection,
@@ -114,7 +118,10 @@ export class SolverService {
       return {
         resource: {
           initialProblem: problem.registries,
-          umbral: 0.8,
+          umbral: {
+            acceptanceUmbral: this.ACCEPTANCE_UMBRAL,
+            similitude,
+          },
           result: nearestNeighbor,
         },
       };
@@ -162,7 +169,10 @@ export class SolverService {
       rMax?: number,
       rMin?: number,
     ) => number,
-  ): Promise<Record<string, string | number>> {
+  ): Promise<{
+    nearestNeighbor: Record<string, string | number>;
+    similitude: number;
+  }> {
     const [, newCaseColumnValue] = Object.entries(normalizedNewCase)[0];
     const globalSimilitudes = await Promise.all(
       normalizedBaseCases.map(async (baseCase) =>
@@ -207,18 +217,23 @@ export class SolverService {
       acc.globalSimilitude < curr.globalSimilitude ? acc : curr,
     );
 
-    const isAcceptable =
-      nearestNeighbor.globalSimilitude <=
+    const errorUmbral = 1 - this.ACCEPTANCE_UMBRAL;
+
+    const similitudeLimit = Math.fround(
       Object.keys(nearestNeighbor).reduce((acc, curr) => {
         if (curr !== 'globalSimilitude') {
           return acc + 1;
         }
         return acc;
-      }, 0) *
-        0.2;
+      }, 0) * errorUmbral,
+    );
+    const isAcceptable = nearestNeighbor.globalSimilitude <= similitudeLimit;
+
+    const similitude =
+      1 - (errorUmbral * nearestNeighbor.globalSimilitude) / similitudeLimit;
 
     if (isAcceptable) {
-      return nearestNeighbor;
+      return { nearestNeighbor, similitude };
     }
     throw new NotFoundException({
       error: {

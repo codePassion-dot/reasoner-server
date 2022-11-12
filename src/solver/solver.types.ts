@@ -10,7 +10,10 @@ export interface RemoteBaseCasesConnection {
 export interface SolverResult {
   resource: {
     initialProblem: Registry[];
-    umbral: number;
+    umbral: {
+      acceptanceUmbral: number;
+      similitude: number;
+    };
     result: Record<string, string | number>;
   };
 }
