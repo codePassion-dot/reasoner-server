@@ -49,10 +49,9 @@ export class SolverService {
     const formattedBaseCases = allBaseCases.map((baseCase) =>
       Object.entries(baseCase)
         .filter(([columnName]) => {
-          const { target } = columns.find(
-            (column) => column.name === columnName,
-          );
-          return target !== 'goal-factor';
+          const column = columns.find((column) => column.name === columnName);
+
+          return column && column.target !== 'goal-factor';
         })
         .reduce(
           (acc, [columnName, columnValue]) => ({
@@ -200,7 +199,7 @@ export class SolverService {
               ); // local similitude
               return {
                 ...acc,
-                [columnName]: distance,
+                [columnName]: columnValue,
                 globalSimilitude: Number(acc.globalSimilitude) + distance,
               };
             }
