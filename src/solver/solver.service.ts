@@ -86,61 +86,37 @@ export class SolverService {
       remoteBaseCasesConnection,
     );
 
-    if (algorithm.name === 'euclidian-distance') {
-      const { nearestNeighbor, similitude } = await this.getNearestNeighbor(
-        normalizedBaseCases,
-        normalizedNewCase,
-        remoteBaseCasesConnection,
-        (caseBaseFactorX: number, newCaseFactorY: number) =>
-          Math.sqrt(Math.pow(caseBaseFactorX - newCaseFactorY, 2)),
-      );
+    const { nearestNeighbor, similitude } = await this.getNearestNeighbor(
+      normalizedBaseCases,
+      normalizedNewCase,
+      remoteBaseCasesConnection,
+      algorithm.name === 'manhattan-distance'
+        ? (
+            caseBaseFactorX: number,
+            newCaseFactorY: number,
+            rMax: number,
+            rMin: number,
+          ) => 1 - Math.abs((caseBaseFactorX - newCaseFactorY) / (rMax + rMin))
+        : (caseBaseFactorX: number, newCaseFactorY: number) =>
+            Math.sqrt(Math.pow(caseBaseFactorX - newCaseFactorY, 2)),
+    );
 
-      const result = this.getOriginalCase(
-        normalizedBaseCases,
-        allBaseCases,
-        nearestNeighbor,
-      );
+    const result = this.getOriginalCase(
+      normalizedBaseCases,
+      allBaseCases,
+      nearestNeighbor,
+    );
 
-      return {
-        resource: {
-          initialProblem: problem.registries,
-          umbral: {
-            acceptanceUmbral: this.ACCEPTANCE_UMBRAL,
-            similitude,
-          },
-          result,
+    return {
+      resource: {
+        initialProblem: problem.registries,
+        umbral: {
+          acceptanceUmbral: this.ACCEPTANCE_UMBRAL,
+          similitude,
         },
-      };
-    } else if (algorithm.name === 'manhattan-distance') {
-      const { nearestNeighbor, similitude } = await this.getNearestNeighbor(
-        normalizedBaseCases,
-        normalizedNewCase,
-        remoteBaseCasesConnection,
-        (
-          caseBaseFactorX: number,
-          newCaseFactorY: number,
-          rMax: number,
-          rMin: number,
-        ) => 1 - Math.abs((caseBaseFactorX - newCaseFactorY) / (rMax + rMin)),
-      );
-
-      const result = this.getOriginalCase(
-        normalizedBaseCases,
-        allBaseCases,
-        nearestNeighbor,
-      );
-
-      return {
-        resource: {
-          initialProblem: problem.registries,
-          umbral: {
-            acceptanceUmbral: this.ACCEPTANCE_UMBRAL,
-            similitude,
-          },
-          result,
-        },
-      };
-    }
+        result,
+      },
+    };
   }
 
   getOriginalCase(
@@ -202,11 +178,11 @@ export class SolverService {
     nearestNeighbor: Record<string, string | number>;
     similitude: number;
   }> {
-    const [, newCaseColumnValue] = Object.entries(normalizedNewCase)[0];
     const globalSimilitudes = await Promise.all(
       normalizedBaseCases.map(async (baseCase) =>
         Object.entries(baseCase).reduce(
           async (accPromise, [columnName, columnValue]) => {
+            const newCaseColumnValue = normalizedNewCase[columnName];
             const { min, max } = await this.getMinAndMax(
               columnName,
               remoteBaseCasesConnection,
@@ -221,7 +197,7 @@ export class SolverService {
                 newCaseColumnValue,
                 max,
                 min,
-              );
+              ); // local similitude
               return {
                 ...acc,
                 [columnName]: distance,
@@ -231,7 +207,9 @@ export class SolverService {
             return {
               ...acc,
               [columnName]: columnValue,
-              globalSimilitude: Number(acc.globalSimilitude),
+              globalSimilitude:
+                Number(acc.globalSimilitude) +
+                (newCaseColumnValue === columnValue ? 0 : 1), // literal values
             };
           },
           Promise.resolve({
@@ -346,7 +324,7 @@ export class SolverService {
     }
 
     if (columnType === 'numeric-columns') {
-      if (algorithmName === 'euclidian-distance') {
+      if (algorithmName === 'euclidean-distance') {
         const {
           resource: { min, max },
         } = await this.connectionService.getNumericColumnMinMax({
