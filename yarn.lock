@@ -7424,6 +7424,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3, signal-exit@^3.0.7:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
+simple-deepcompare@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/simple-deepcompare/-/simple-deepcompare-1.0.7.tgz#4b4f5c2b8ac3686b1e1bd100e684a217bc1787d7"
+  integrity sha512-87cHWSEOq1ZplLaLau+Jh8PJcHTy1K8SRp55uHfE9RS71tXweMNhd0ygefXog0QJkSl6zNwBpDt6KCYAd/45kA==
+
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz"
