@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { deepCompare } from 'simple-deepcompare';
 import { ConnectionService } from 'src/connection/connection.service';
 import { Algorithm } from 'src/problem/entities/algorithm.entity';
 import { ProblemService } from 'src/problem/problem.service';
@@ -93,6 +94,13 @@ export class SolverService {
         (caseBaseFactorX: number, newCaseFactorY: number) =>
           Math.sqrt(Math.pow(caseBaseFactorX - newCaseFactorY, 2)),
       );
+
+      const result = this.getOriginalCase(
+        normalizedBaseCases,
+        allBaseCases,
+        nearestNeighbor,
+      );
+
       return {
         resource: {
           initialProblem: problem.registries,
@@ -100,7 +108,7 @@ export class SolverService {
             acceptanceUmbral: this.ACCEPTANCE_UMBRAL,
             similitude,
           },
-          result: nearestNeighbor,
+          result,
         },
       };
     } else if (algorithm.name === 'manhattan-distance') {
@@ -115,6 +123,13 @@ export class SolverService {
           rMin: number,
         ) => 1 - Math.abs((caseBaseFactorX - newCaseFactorY) / (rMax + rMin)),
       );
+
+      const result = this.getOriginalCase(
+        normalizedBaseCases,
+        allBaseCases,
+        nearestNeighbor,
+      );
+
       return {
         resource: {
           initialProblem: problem.registries,
@@ -122,10 +137,24 @@ export class SolverService {
             acceptanceUmbral: this.ACCEPTANCE_UMBRAL,
             similitude,
           },
-          result: nearestNeighbor,
+          result,
         },
       };
     }
+  }
+
+  getOriginalCase(
+    normalizedBaseCases: Record<string, number | string>[],
+    baseCases: Record<string, number | string>[],
+    normalizedTarget: Record<string, number | string>,
+  ) {
+    const { globalSimilitude, ...rest } = normalizedTarget;
+
+    const index = normalizedBaseCases.findIndex((baseCase) =>
+      deepCompare(baseCase, rest),
+    );
+    const result = { ...baseCases[index], globalSimilitude };
+    return result;
   }
 
   async getMinAndMax(
@@ -217,6 +246,24 @@ export class SolverService {
       acc.globalSimilitude < curr.globalSimilitude ? acc : curr,
     );
 
+    const { isAcceptable, similitude } = this.getSimilitude(nearestNeighbor);
+
+    if (isAcceptable) {
+      return { nearestNeighbor, similitude };
+    }
+    throw new NotFoundException({
+      error: {
+        code: 'no_nearest_neighbor_found',
+        detail: 'No nearest neighbor was found',
+      },
+      resource: null,
+    });
+  }
+
+  getSimilitude(nearestNeighbor: {
+    [key: string]: string | number;
+    globalSimilitude: number;
+  }) {
     const errorUmbral = 1 - this.ACCEPTANCE_UMBRAL;
 
     const similitudeLimit = Math.fround(
@@ -232,16 +279,7 @@ export class SolverService {
     const similitude =
       1 - (errorUmbral * nearestNeighbor.globalSimilitude) / similitudeLimit;
 
-    if (isAcceptable) {
-      return { nearestNeighbor, similitude };
-    }
-    throw new NotFoundException({
-      error: {
-        code: 'no_nearest_neighbor_found',
-        detail: 'No nearest neighbor was found',
-      },
-      resource: null,
-    });
+    return { isAcceptable, similitude };
   }
 
   async normalizeBaseCases(
