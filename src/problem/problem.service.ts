@@ -10,7 +10,7 @@ import {
   SaveProblemSourceColumnsType,
 } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
-import { Not } from 'typeorm';
+import { In, Not, ObjectLiteral } from 'typeorm';
 import { BaseCaseColumn } from './entities/base-case-column.entity';
 import { MappedValue } from './entities/mapped-value.entity';
 import { Registry } from './entities/registry.entity';
@@ -265,5 +265,24 @@ export class ProblemService {
       relations: ['mappedValues'],
     });
     return { resource: { mappedValues: column.mappedValues } };
+  }
+
+  async getUnfinishedProblems(
+    connectionId: string,
+  ): Promise<{ resource: Problem[] }> {
+    const problems = await this.problemsRepository.find({
+      where: { connection: { id: connectionId }, isBeingCreated: true },
+    });
+    return { resource: problems };
+  }
+
+  async convertProblemsToDraft(
+    problems: Problem[],
+  ): Promise<{ resource: ObjectLiteral[] }> {
+    const problemsUpdated = await this.problemsRepository.update(
+      { id: In(problems.map(({ id }) => id)) },
+      { isBeingCreated: false, draft: true },
+    );
+    return { resource: problemsUpdated.generatedMaps };
   }
 }

@@ -23,6 +23,8 @@ export class Problem {
   schema: string;
   @Column({ nullable: true })
   table: string;
+  @Column({ nullable: true, default: false })
+  draft: boolean;
   @ManyToOne(() => Connection, (connection) => connection.problems)
   connection: Connection;
   @ManyToOne(() => User, (user) => user.problems)

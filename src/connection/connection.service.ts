@@ -41,10 +41,27 @@ export class ConnectionService {
     return connection;
   }
 
+  async prepareToOverwriteCurrentConnection() {
+    const possibleCurrentConnection = await this.connectionsRepository.findOne({
+      where: {
+        current: true,
+      },
+    });
+    if (possibleCurrentConnection) {
+      possibleCurrentConnection.current = false;
+      await this.connectionsRepository.save(possibleCurrentConnection);
+      const { resource } = await this.problemsService.getUnfinishedProblems(
+        possibleCurrentConnection.id,
+      );
+      await this.problemsService.convertProblemsToDraft(resource);
+    }
+  }
+
   async createConnection(
     databaseMetaData: Partial<ConnectionOptions>,
     userId: string,
   ): Promise<CreateNewConnectionResponseWithError> {
+    await this.prepareToOverwriteCurrentConnection();
     const { error } = await this.databaseService.getDatabaseInstance(
       databaseMetaData,
     );
