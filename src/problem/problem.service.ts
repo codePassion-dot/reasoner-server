@@ -22,6 +22,7 @@ import { Algorithm } from './entities/algorithm.entity';
 import { AlgorithmsRepository } from './repositories/algorithms.repository';
 import { LiteralValue } from './entities/literal-value.entity';
 import { LiteralValuesRepository } from './repositories/literal-values.repository';
+import { RegistriesRepository } from './repositories/registries.repository';
 
 @Injectable()
 export class ProblemService {
@@ -32,7 +33,7 @@ export class ProblemService {
     @InjectRepository(MappedValue)
     private MappedValues: MappedValuesRepository,
     @InjectRepository(Registry)
-    private registriesRepository: ProblemsRepository,
+    private registriesRepository: RegistriesRepository,
     @InjectRepository(Algorithm)
     private algorithmsRepository: AlgorithmsRepository,
     @InjectRepository(LiteralValue)
@@ -204,6 +205,7 @@ export class ProblemService {
     problem: Problem,
     newRegistry: NewRegistry[],
   ): Promise<{ resource: Problem }> {
+    await this.registriesRepository.delete({ problem });
     for (const entry of newRegistry) {
       const registry = new Registry();
       registry.problem = problem;
