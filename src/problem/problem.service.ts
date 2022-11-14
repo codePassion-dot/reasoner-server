@@ -21,6 +21,7 @@ import { ProblemsRepository } from './repositories/problems.repository';
 import { Algorithm } from './entities/algorithm.entity';
 import { AlgorithmsRepository } from './repositories/algorithms.repository';
 import { LiteralValue } from './entities/literal-value.entity';
+import { LiteralValuesRepository } from './repositories/literal-values.repository';
 
 @Injectable()
 export class ProblemService {
@@ -35,7 +36,7 @@ export class ProblemService {
     @InjectRepository(Algorithm)
     private algorithmsRepository: AlgorithmsRepository,
     @InjectRepository(LiteralValue)
-    private literalValuesRepository: ProblemsRepository,
+    private literalValuesRepository: LiteralValuesRepository,
   ) {}
 
   async createProblem(
@@ -144,6 +145,7 @@ export class ProblemService {
         const column = await this.baseCaseColumnsRepository.findOne({
           where: { name: option, problem },
         });
+        await this.literalValuesRepository.delete({ baseCaseColumn: column });
         column.type = section.droppableId;
         await this.baseCaseColumnsRepository.save(column);
         if (section.droppableId === 'literal-columns') {
