@@ -184,6 +184,7 @@ export class ProblemService {
       const column = await this.baseCaseColumnsRepository.findOne({
         where: { name: columnName, problem },
       });
+      await this.MappedValues.delete({ baseCaseColumn: column });
       for (const { ordinalValue, mappedValue } of mappedValues) {
         const mappedValueToSave = new MappedValue();
         mappedValueToSave.baseCaseColumn = column;
