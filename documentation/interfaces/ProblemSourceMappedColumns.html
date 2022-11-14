@@ -85,7 +85,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/parameterizer/parameterizer.types.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/parameterizer/parameterizer.types.ts:50</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -136,6 +136,13 @@ export interface ProblemSourceTable {
 
 export interface ProblemSourceColumn {
   columnName: string;
+}
+
+export interface SaveProblemSourceColumnsType {
+  droppableId: string;
+  options: string[];
+  sectionTitle: string;
+  literalColumns?: Record&lt;string, string[]&gt;;
 }
 
 export interface ProblemSourceMappedColumns {

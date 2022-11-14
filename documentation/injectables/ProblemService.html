@@ -88,6 +88,18 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#getBaseColumnMappedValue" >getBaseColumnMappedValue</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getBaseColumnMappedValues" >getBaseColumnMappedValues</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getBaseColumnMi" >getBaseColumnMi</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#getProblemBeingCreated" >getProblemBeingCreated</a>
                             </li>
                             <li>
@@ -144,12 +156,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(problemsRepository: <a href="../classes/ProblemsRepository.html" target="_self">ProblemsRepository</a>, baseCaseColumnsRepository: <a href="../classes/BaseCaseColumns.html" target="_self">BaseCaseColumns</a>, MappedValues: <a href="../classes/MappedValuesRepository.html" target="_self">MappedValuesRepository</a>, registriesRepository: <a href="../classes/ProblemsRepository.html" target="_self">ProblemsRepository</a>, algorithmsRepository: <a href="../classes/AlgorithmsRepository.html" target="_self">AlgorithmsRepository</a>)</code>
+<code>constructor(problemsRepository: <a href="../classes/ProblemsRepository.html" target="_self">ProblemsRepository</a>, baseCaseColumnsRepository: <a href="../classes/BaseCaseColumns.html" target="_self">BaseCaseColumns</a>, MappedValues: <a href="../classes/MappedValuesRepository.html" target="_self">MappedValuesRepository</a>, registriesRepository: <a href="../classes/ProblemsRepository.html" target="_self">ProblemsRepository</a>, algorithmsRepository: <a href="../classes/AlgorithmsRepository.html" target="_self">AlgorithmsRepository</a>, literalValuesRepository: <a href="../classes/ProblemsRepository.html" target="_self">ProblemsRepository</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/problem/problem.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/problem/problem.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -226,6 +238,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>literalValuesRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/ProblemsRepository.html" target="_self" >ProblemsRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -262,8 +286,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/problem/problem.service.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/problem/problem.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -345,8 +369,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="197"
-                            class="link-to-prism">src/problem/problem.service.ts:197</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">src/problem/problem.service.ts:216</a></div>
                 </td>
             </tr>
 
@@ -357,6 +381,231 @@
                     <div class="io-description">
                         <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBaseColumnMappedValue"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getBaseColumnMappedValue</b></span>
+                        <a href="#getBaseColumnMappedValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getBaseColumnMappedValue(columnName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, columnValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="243"
+                            class="link-to-prism">src/problem/problem.service.ts:243</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>columnName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>columnValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBaseColumnMappedValues"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getBaseColumnMappedValues</b></span>
+                        <a href="#getBaseColumnMappedValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getBaseColumnMappedValues(columnName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="260"
+                            class="link-to-prism">src/problem/problem.service.ts:260</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>columnName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBaseColumnMi"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getBaseColumnMi</b></span>
+                        <a href="#getBaseColumnMi"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getBaseColumnMi(columnName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">src/problem/problem.service.ts:233</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>columnName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -384,8 +633,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/problem/problem.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">src/problem/problem.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -455,8 +704,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">src/problem/problem.service.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/problem/problem.service.ts:94</a></div>
                 </td>
             </tr>
 
@@ -526,8 +775,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/problem/problem.service.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">src/problem/problem.service.ts:104</a></div>
                 </td>
             </tr>
 
@@ -597,8 +846,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">src/problem/problem.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">src/problem/problem.service.ts:164</a></div>
                 </td>
             </tr>
 
@@ -668,8 +917,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="179"
-                            class="link-to-prism">src/problem/problem.service.ts:179</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">src/problem/problem.service.ts:198</a></div>
                 </td>
             </tr>
 
@@ -751,8 +1000,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="202"
-                            class="link-to-prism">src/problem/problem.service.ts:202</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="221"
+                            class="link-to-prism">src/problem/problem.service.ts:221</a></div>
                 </td>
             </tr>
 
@@ -834,8 +1083,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">src/problem/problem.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">src/problem/problem.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -917,8 +1166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/problem/problem.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">src/problem/problem.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -993,15 +1242,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>saveProblemSourceColumnsTypes(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, problemSourceColumns: <a href="../classes/SaveProblemSourceColumnsTypeDto.html" target="_self">SaveProblemSourceColumnsTypeDto[]</a>)</code>
+                    <code>saveProblemSourceColumnsTypes(problem: <a href="../entitys/Problem.html" target="_self">Problem</a>, problemSourceColumns: <a href="../entitys/Problem.html" target="_self">SaveProblemSourceColumnsType[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="125"
-                            class="link-to-prism">src/problem/problem.service.ts:125</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">src/problem/problem.service.ts:136</a></div>
                 </td>
             </tr>
 
@@ -1036,7 +1285,7 @@
                                 <tr>
                                     <td>problemSourceColumns</td>
                                     <td>
-                                                <code><a href="../classes/SaveProblemSourceColumnsTypeDto.html" target="_self" >SaveProblemSourceColumnsTypeDto[]</a></code>
+                                                <code><a href="../entitys/Problem.html" target="_self" >SaveProblemSourceColumnsType[]</a></code>
                                     </td>
 
                                     <td>
@@ -1083,8 +1332,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">src/problem/problem.service.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/problem/problem.service.ts:174</a></div>
                 </td>
             </tr>
 
@@ -1154,12 +1403,12 @@
 import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
 import { Connection } from &#x27;src/connection/connection.entity&#x27;;
 import { SaveProblemSourceColumnsDto } from &#x27;src/parameterizer/dtos/save-problem-source-columns&#x27;;
-import { SaveProblemSourceColumnsTypeDto } from &#x27;src/parameterizer/dtos/save-problem-source-columns-types.dto&#x27;;
 import {
   NewRegistry,
   ProblemSource,
   ProblemSourceMappedColumns,
   ProbleSourceSelectedColumnsNewProblem,
+  SaveProblemSourceColumnsType,
 } from &#x27;src/parameterizer/parameterizer.types&#x27;;
 import { User } from &#x27;src/users/user.entity&#x27;;
 import { Not } from &#x27;typeorm&#x27;;
@@ -1172,6 +1421,7 @@ import { MappedValuesRepository } from &#x27;./repositories/mapped-values.reposi
 import { ProblemsRepository } from &#x27;./repositories/problems.repository&#x27;;
 import { Algorithm } from &#x27;./entities/algorithm.entity&#x27;;
 import { AlgorithmsRepository } from &#x27;./repositories/algorithms.repository&#x27;;
+import { LiteralValue } from &#x27;./entities/literal-value.entity&#x27;;
 
 @Injectable()
 export class ProblemService {
@@ -1185,6 +1435,8 @@ export class ProblemService {
     private registriesRepository: ProblemsRepository,
     @InjectRepository(Algorithm)
     private algorithmsRepository: AlgorithmsRepository,
+    @InjectRepository(LiteralValue)
+    private literalValuesRepository: ProblemsRepository,
   ) {}
 
   async createProblem(
@@ -1255,28 +1507,36 @@ export class ProblemService {
   ): Promise&lt;{ resource: ProbleSourceSelectedColumnsNewProblem[] }&gt; {
     const columns &#x3D; await this.baseCaseColumnsRepository.find({
       where: { problem, target: Not(&#x27;goal-factor&#x27;) },
-      relations: [&#x27;mappedValues&#x27;],
+      relations: [&#x27;mappedValues&#x27;, &#x27;literalValues&#x27;],
     });
-    const result &#x3D; columns.map(({ name, type, mappedValues }) &#x3D;&gt; {
-      const base &#x3D; {
-        columnName: name,
-        type,
-        options: mappedValues.map(({ ordinalValue }) &#x3D;&gt; ordinalValue),
-      };
-      if (type &#x3D;&#x3D;&#x3D; &#x27;boolean-columns&#x27;) {
-        return {
-          ...base,
-          options: [&#x27;true&#x27;, &#x27;false&#x27;],
+    const result &#x3D; columns.map(
+      ({ name, type, mappedValues, literalValues }) &#x3D;&gt; {
+        const base &#x3D; {
+          columnName: name,
+          type,
+          options: mappedValues.map(({ ordinalValue }) &#x3D;&gt; ordinalValue),
         };
-      }
-      return base;
-    });
+        if (type &#x3D;&#x3D;&#x3D; &#x27;boolean-columns&#x27;) {
+          return {
+            ...base,
+            options: [&#x27;true&#x27;, &#x27;false&#x27;],
+          };
+        }
+        if (type &#x3D;&#x3D;&#x3D; &#x27;literal-columns&#x27;) {
+          return {
+            ...base,
+            options: literalValues.map(({ value }) &#x3D;&gt; value),
+          };
+        }
+        return base;
+      },
+    );
     return { resource: result };
   }
 
   async saveProblemSourceColumnsTypes(
     problem: Problem,
-    problemSourceColumns: SaveProblemSourceColumnsTypeDto[],
+    problemSourceColumns: SaveProblemSourceColumnsType[],
   ): Promise&lt;any&gt; {
     for (const section of problemSourceColumns) {
       for (const option of section.options) {
@@ -1285,6 +1545,14 @@ export class ProblemService {
         });
         column.type &#x3D; section.droppableId;
         await this.baseCaseColumnsRepository.save(column);
+        if (section.droppableId &#x3D;&#x3D;&#x3D; &#x27;literal-columns&#x27;) {
+          for (const literalValue of section.literalColumns[option]) {
+            const literalValueToSave &#x3D; new LiteralValue();
+            literalValueToSave.value &#x3D; literalValue;
+            literalValueToSave.baseCaseColumn &#x3D; column;
+            await this.literalValuesRepository.save(literalValueToSave);
+          }
+        }
       }
     }
     const result &#x3D; await this.problemsRepository.findOne({
@@ -1361,6 +1629,43 @@ export class ProblemService {
     problem.algorithm &#x3D; algorithmToSave;
     const result &#x3D; await this.problemsRepository.save(problem);
     return { resource: result };
+  }
+
+  async getBaseColumnMi(
+    columnName: string,
+  ): Promise&lt;{ resource: { mi: number } }&gt; {
+    const column &#x3D; await this.baseCaseColumnsRepository.findOne({
+      where: { name: columnName },
+      relations: [&#x27;mappedValues&#x27;],
+    });
+    return { resource: { mi: column.mappedValues.length } };
+  }
+
+  async getBaseColumnMappedValue(
+    columnName: string,
+    columnValue: string,
+  ): Promise&lt;{ resource: { mappedValue: number } }&gt; {
+    const column &#x3D; await this.baseCaseColumnsRepository.findOne({
+      where: { name: columnName },
+      relations: [&#x27;mappedValues&#x27;],
+    });
+    return {
+      resource: {
+        mappedValue: column.mappedValues.find(
+          ({ ordinalValue }) &#x3D;&gt; ordinalValue &#x3D;&#x3D;&#x3D; columnValue,
+        ).mappedValue,
+      },
+    };
+  }
+
+  async getBaseColumnMappedValues(
+    columnName: string,
+  ): Promise&lt;{ resource: { mappedValues: MappedValue[] } }&gt; {
+    const column &#x3D; await this.baseCaseColumnsRepository.findOne({
+      where: { name: columnName },
+      relations: [&#x27;mappedValues&#x27;],
+    });
+    return { resource: { mappedValues: column.mappedValues } };
   }
 }
 </code></pre>
