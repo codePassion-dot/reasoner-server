@@ -10,6 +10,7 @@ export class LiteralValue {
   @ManyToOne(
     () => BaseCaseColumn,
     (baseCaseColumn) => baseCaseColumn.literalValues,
+    { onDelete: 'CASCADE' },
   )
   baseCaseColumn: BaseCaseColumn;
 }

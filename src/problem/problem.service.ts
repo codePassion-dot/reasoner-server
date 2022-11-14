@@ -75,6 +75,8 @@ export class ProblemService {
     problem: Problem,
     problemSourceSections: SaveProblemSourceColumnsDto[],
   ): Promise<{ resource: Problem }> {
+    await this.baseCaseColumnsRepository.delete({ problem });
+
     for (const section of problemSourceSections) {
       for (const option of section.options) {
         const columnToSave = new BaseCaseColumn();
