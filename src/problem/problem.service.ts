@@ -10,7 +10,7 @@ import {
   SaveProblemSourceColumnsType,
 } from 'src/parameterizer/parameterizer.types';
 import { User } from 'src/users/user.entity';
-import { Not } from 'typeorm';
+import { In, Not, ObjectLiteral } from 'typeorm';
 import { BaseCaseColumn } from './entities/base-case-column.entity';
 import { MappedValue } from './entities/mapped-value.entity';
 import { Registry } from './entities/registry.entity';
@@ -21,6 +21,8 @@ import { ProblemsRepository } from './repositories/problems.repository';
 import { Algorithm } from './entities/algorithm.entity';
 import { AlgorithmsRepository } from './repositories/algorithms.repository';
 import { LiteralValue } from './entities/literal-value.entity';
+import { LiteralValuesRepository } from './repositories/literal-values.repository';
+import { RegistriesRepository } from './repositories/registries.repository';
 
 @Injectable()
 export class ProblemService {
@@ -31,11 +33,11 @@ export class ProblemService {
     @InjectRepository(MappedValue)
     private MappedValues: MappedValuesRepository,
     @InjectRepository(Registry)
-    private registriesRepository: ProblemsRepository,
+    private registriesRepository: RegistriesRepository,
     @InjectRepository(Algorithm)
     private algorithmsRepository: AlgorithmsRepository,
     @InjectRepository(LiteralValue)
-    private literalValuesRepository: ProblemsRepository,
+    private literalValuesRepository: LiteralValuesRepository,
   ) {}
 
   async createProblem(
@@ -75,6 +77,8 @@ export class ProblemService {
     problem: Problem,
     problemSourceSections: SaveProblemSourceColumnsDto[],
   ): Promise<{ resource: Problem }> {
+    await this.baseCaseColumnsRepository.delete({ problem });
+
     for (const section of problemSourceSections) {
       for (const option of section.options) {
         const columnToSave = new BaseCaseColumn();
@@ -142,6 +146,7 @@ export class ProblemService {
         const column = await this.baseCaseColumnsRepository.findOne({
           where: { name: option, problem },
         });
+        await this.literalValuesRepository.delete({ baseCaseColumn: column });
         column.type = section.droppableId;
         await this.baseCaseColumnsRepository.save(column);
         if (section.droppableId === 'literal-columns') {
@@ -180,6 +185,7 @@ export class ProblemService {
       const column = await this.baseCaseColumnsRepository.findOne({
         where: { name: columnName, problem },
       });
+      await this.MappedValues.delete({ baseCaseColumn: column });
       for (const { ordinalValue, mappedValue } of mappedValues) {
         const mappedValueToSave = new MappedValue();
         mappedValueToSave.baseCaseColumn = column;
@@ -199,6 +205,7 @@ export class ProblemService {
     problem: Problem,
     newRegistry: NewRegistry[],
   ): Promise<{ resource: Problem }> {
+    await this.registriesRepository.delete({ problem });
     for (const entry of newRegistry) {
       const registry = new Registry();
       registry.problem = problem;
@@ -265,5 +272,24 @@ export class ProblemService {
       relations: ['mappedValues'],
     });
     return { resource: { mappedValues: column.mappedValues } };
+  }
+
+  async getUnfinishedProblems(
+    connectionId: string,
+  ): Promise<{ resource: Problem[] }> {
+    const problems = await this.problemsRepository.find({
+      where: { connection: { id: connectionId }, isBeingCreated: true },
+    });
+    return { resource: problems };
+  }
+
+  async convertProblemsToDraft(
+    problems: Problem[],
+  ): Promise<{ resource: ObjectLiteral[] }> {
+    const problemsUpdated = await this.problemsRepository.update(
+      { id: In(problems.map(({ id }) => id)) },
+      { isBeingCreated: false, draft: true },
+    );
+    return { resource: problemsUpdated.generatedMaps };
   }
 }
