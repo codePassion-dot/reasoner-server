@@ -88,6 +88,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#getAllRows" >getAllRows</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#getConnectionById" >getConnectionById</a>
                             </li>
                             <li>
@@ -96,7 +100,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#getProblemSourceOrdinalValues" >getProblemSourceOrdinalValues</a>
+                                <a href="#getNumericColumnMinMax" >getNumericColumnMinMax</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getProblemSourceDistinctValues" >getProblemSourceDistinctValues</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -378,6 +386,101 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getAllRows"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getAllRows</b></span>
+                        <a href="#getAllRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllRows(connection: <a href="../entitys/Connection.html" target="_self">Connection</a>, table: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, schema: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/connection/connection.service.ts:174</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>connection</td>
+                                    <td>
+                                                <code><a href="../entitys/Connection.html" target="_self" >Connection</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>table</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>schema</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;Record[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getConnectionById"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -544,18 +647,88 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getProblemSourceOrdinalValues"></a>
+                    <a name="getNumericColumnMinMax"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>getProblemSourceOrdinalValues</b></span>
-                        <a href="#getProblemSourceOrdinalValues"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getNumericColumnMinMax</b></span>
+                        <a href="#getNumericColumnMinMax"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getProblemSourceOrdinalValues(connection: <a href="../entitys/Connection.html" target="_self">Connection</a>, table: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, schema: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, columnNames: literal type[])</code>
+                    <code>getNumericColumnMinMax(undefined: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">src/connection/connection.service.ts:194</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProblemSourceDistinctValues"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>getProblemSourceDistinctValues</b></span>
+                        <a href="#getProblemSourceDistinctValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProblemSourceDistinctValues(connection: <a href="../entitys/Connection.html" target="_self">Connection</a>, table: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, schema: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, columnNames: literal type[])</code>
                 </td>
             </tr>
 
@@ -957,7 +1130,7 @@ export class ConnectionService {
     return [];
   }
 
-  async getProblemSourceOrdinalValues(
+  async getProblemSourceDistinctValues(
     connection: Connection,
     table: string,
     schema: string,
@@ -978,6 +1151,48 @@ export class ConnectionService {
       }
     }
     return columns;
+  }
+
+  async getAllRows(
+    connection: Connection,
+    table: string,
+    schema: string,
+  ): Promise&lt;Record&lt;string, string&gt;[]&gt; {
+    const { resource: db, error } &#x3D;
+      await this.databaseService.getDatabaseInstance(connection);
+    if (!error) {
+      const { rows } &#x3D; await db.query(&#x60;SELECT * FROM ${schema}.${table};&#x60;);
+      return rows.map((row) &#x3D;&gt; {
+        const newRow &#x3D; {};
+        for (const [key, value] of Object.entries(row)) {
+          newRow[key] &#x3D; value;
+        }
+        return newRow;
+      });
+    }
+    return [];
+  }
+
+  async getNumericColumnMinMax({
+    connection,
+    table,
+    schema,
+    columnName,
+  }: {
+    connection: Connection;
+    table: string;
+    schema: string;
+    columnName: string;
+  }): Promise&lt;{ resource: { min: number; max: number } | null }&gt; {
+    const { resource: db, error } &#x3D;
+      await this.databaseService.getDatabaseInstance(connection);
+    if (!error) {
+      const { rows } &#x3D; await db.query(
+        &#x60;SELECT MIN(${columnName}) AS min, MAX(${columnName}) AS max FROM ${schema}.${table};&#x60;,
+      );
+      return { resource: { min: rows[0].min, max: rows[0].max } };
+    }
+    return { resource: null };
   }
 }
 </code></pre>

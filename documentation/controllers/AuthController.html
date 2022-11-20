@@ -557,7 +557,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>unknown</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                     </div>
                     <div class="io-description">
@@ -738,7 +738,7 @@ export class AuthController {
       domain: this.configService.get(&#x27;FRONTEND_DOMAIN&#x27;),
       maxAge: 1000 * 60 * 60 * 24 * 30,
     });
-    return { error: null, resource: rest };
+    response.status(202).json({ error: null, resource: rest });
   }
 
   @ApiOperation(refreshTokenDescription)

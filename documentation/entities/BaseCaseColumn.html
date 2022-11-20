@@ -78,6 +78,9 @@
                                 <a href="#id" >id</a>
                             </li>
                             <li>
+                                <a href="#literalValues" >literalValues</a>
+                            </li>
+                            <li>
                                 <a href="#mappedValues" >mappedValues</a>
                             </li>
                             <li>
@@ -138,7 +141,42 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="literalValues"></a>
+                    <span class="name">
+                        <span ><b>literalValues</b></span>
+                        <a href="#literalValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../entitys/LiteralValue.html" target="_self" >LiteralValue[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @OneToMany(undefined, literalValue &#x3D;&gt; literalValue.baseCaseColumn)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -173,7 +211,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -208,7 +246,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -243,7 +281,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -278,7 +316,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -313,7 +351,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/problem/entities/base-case-column.entity.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -332,6 +370,7 @@
   OneToMany,
   PrimaryGeneratedColumn,
 } from &#x27;typeorm&#x27;;
+import { LiteralValue } from &#x27;./literal-value.entity&#x27;;
 import { MappedValue } from &#x27;./mapped-value.entity&#x27;;
 import { Problem } from &#x27;./problem.entity&#x27;;
 
@@ -343,12 +382,17 @@ export class BaseCaseColumn {
   name: string;
   @Column({ enum: [&#x27;predicting-factors&#x27;, &#x27;goal-factor&#x27;] })
   target: string;
-  @Column({ enum: [&#x27;ordinal&#x27;, &#x27;boolean&#x27;, &#x27;numeric&#x27;], nullable: true })
+  @Column({
+    enum: [&#x27;ordinal&#x27;, &#x27;boolean&#x27;, &#x27;numeric&#x27;, &#x27;literal&#x27;],
+    nullable: true,
+  })
   type: string;
   @ManyToOne(() &#x3D;&gt; Problem, (problem) &#x3D;&gt; problem.columns)
   problem: Problem;
   @OneToMany(() &#x3D;&gt; MappedValue, (mappedValue) &#x3D;&gt; mappedValue.baseCaseColumn)
   mappedValues: MappedValue[];
+  @OneToMany(() &#x3D;&gt; LiteralValue, (literalValue) &#x3D;&gt; literalValue.baseCaseColumn)
+  literalValues: LiteralValue[];
 }
 </code></pre>
     </div>

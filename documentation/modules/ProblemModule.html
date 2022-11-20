@@ -56,13 +56,13 @@
 <title>cluster_ProblemModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 186,-230.8 186,-32.8 8,-32.8"/>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_ProblemModule_providers</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 178,-92.8 178,-40.8 16,-40.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ProblemModule_exports</title>
 <polygon fill="none" stroke="black" points="35,-170.8 35,-222.8 159,-222.8 159,-170.8 35,-170.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_ProblemModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 178,-92.8 178,-40.8 16,-40.8"/>
 </g>
 <!-- ProblemService  -->
 <g id="node1" class="node">
@@ -163,6 +163,7 @@
 import { TypeOrmModule } from &#x27;@nestjs/typeorm&#x27;;
 import { Algorithm } from &#x27;./entities/algorithm.entity&#x27;;
 import { BaseCaseColumn } from &#x27;./entities/base-case-column.entity&#x27;;
+import { LiteralValue } from &#x27;./entities/literal-value.entity&#x27;;
 import { MappedValue } from &#x27;./entities/mapped-value.entity&#x27;;
 import { Problem } from &#x27;./entities/problem.entity&#x27;;
 import { Registry } from &#x27;./entities/registry.entity&#x27;;
@@ -176,6 +177,7 @@ import { ProblemService } from &#x27;./problem.service&#x27;;
       MappedValue,
       Registry,
       Algorithm,
+      LiteralValue,
     ]),
   ],
   providers: [ProblemService],
