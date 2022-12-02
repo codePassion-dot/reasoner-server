@@ -83,7 +83,6 @@ export class AuthController {
     response.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
       domain: this.configService.get('FRONTEND_DOMAIN'),
       maxAge: 1000 * 60 * 60 * 24 * 30,
     });
