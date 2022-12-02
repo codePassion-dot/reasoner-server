@@ -86,7 +86,7 @@ export class AuthController {
       domain: this.configService.get('FRONTEND_DOMAIN'),
       maxAge: 1000 * 60 * 60 * 24 * 30,
     });
-    response.status(202).json({ error: null, resource: rest });
+    return { error: null, resource: rest };
   }
 
   @ApiOperation(refreshTokenDescription)
