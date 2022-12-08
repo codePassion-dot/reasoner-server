@@ -1,0 +1,916 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>reasoner documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">reasoner documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content controller">
+                   <div class="content-data">
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Controllers</li>
+  <li >AuthController</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/auth/auth.controller.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Prefix</h3>
+            </p>
+            <p class="comment">
+                <code>auth</code>
+            </p>
+
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#checkIfLoggedIn" >checkIfLoggedIn</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#recoverPassword" >recoverPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#refreshToken" >refreshToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#resetPassword" >resetPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#signIn" >signIn</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#signUp" >signUp</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkIfLoggedIn"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>checkIfLoggedIn</b></span>
+                        <a href="#checkIfLoggedIn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkIfLoggedIn(req)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;check-if-logged-in&#x27;)<br />@UseGuards(JwtRefreshAuthGuard)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">src/auth/auth.controller.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>req</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recoverPassword"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>recoverPassword</b></span>
+                        <a href="#recoverPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>recoverPassword(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, response: Response)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@ApiOperation(recovePasswordDescription)<br />@ApiResponse(recoverPasswordSuccessfulResponse)<br />@ApiResponse(recoverPasswordBadRequest)<br />@Get(&#x27;recover-password&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/auth/auth.controller.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>email</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                            <code>Response</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshToken"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>refreshToken</b></span>
+                        <a href="#refreshToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refreshToken(req, response: Response)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@ApiOperation(refreshTokenDescription)<br />@ApiResponse(refreshTokenSuccessfulResponse)<br />@ApiResponse(refreshTokenUnauthorizedResponse)<br />@UseGuards(JwtRefreshAuthGuard)<br />@Get(&#x27;refresh-token&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">src/auth/auth.controller.ts:98</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>req</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                            <code>Response</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>unknown</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetPassword"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>resetPassword</b></span>
+                        <a href="#resetPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resetPassword(password: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, resetPasswordToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, req)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@ApiOperation(resetPasswordDescription)<br />@ApiResponse(resetPasswordSuccessfulResponse)<br />@ApiResponse(resetPasswordUnauthorizedResponse)<br />@ApiBody(resetPasswordCorrectPayload)<br />@UseGuards(JwtResetAuthGuard)<br />@Patch(&#x27;reset-password&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">src/auth/auth.controller.ts:171</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>password</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>resetPasswordToken</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>req</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="signIn"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>signIn</b></span>
+                        <a href="#signIn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>signIn(req, response: Response)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@ApiOperation(signInDescription)<br />@ApiResponse(signInSuccessfulResponse)<br />@ApiResponse(signInUnauthorizedResponse)<br />@ApiBody(signInCorrectPayload)<br />@UseGuards(LocalAuthGuard)<br />@Post(&#x27;sign-in&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/auth/auth.controller.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>req</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                            <code>Response</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="signUp"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>signUp</b></span>
+                        <a href="#signUp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>signUp(body: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@ApiOperation(signUpDescription)<br />@ApiResponse(signUpSuccessfulResponse)<br />@ApiResponse(signUpBadRequestResponse)<br />@ApiBody(signUpCorrectPayload)<br />@Post(&#x27;sign-up&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">src/auth/auth.controller.ts:62</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>body</td>
+                                    <td>
+                                                <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Query,
+  Request,
+  Res,
+  UseGuards,
+} from &#x27;@nestjs/common&#x27;;
+import { ConfigService } from &#x27;@nestjs/config&#x27;;
+import { ApiBody, ApiOperation, ApiResponse } from &#x27;@nestjs/swagger&#x27;;
+import { Response, Request as RequestType } from &#x27;express&#x27;;
+import { User } from &#x27;src/users/user.entity&#x27;;
+import { AuthService } from &#x27;./auth.service&#x27;;
+import { CreateUserDto } from &#x27;./create-user.dto&#x27;;
+import { JwtRefreshAuthGuard, JwtResetAuthGuard } from &#x27;./jwt-auth.guard&#x27;;
+import { LocalAuthGuard } from &#x27;./local-auth.guard&#x27;;
+import * as SendGrid from &#x27;@sendgrid/mail&#x27;;
+import {
+  refreshTokenDescription,
+  refreshTokenSuccessfulResponse,
+  refreshTokenUnauthorizedResponse,
+} from &#x27;./swagger/refresh-token&#x27;;
+import {
+  signInCorrectPayload,
+  signInDescription,
+  signInSuccessfulResponse,
+  signInUnauthorizedResponse,
+} from &#x27;./swagger/sign-in&#x27;;
+import {
+  signUpBadRequestResponse,
+  signUpCorrectPayload,
+  signUpDescription,
+  signUpSuccessfulResponse,
+} from &#x27;./swagger/sign-up&#x27;;
+import {
+  recovePasswordDescription,
+  recoverPasswordBadRequest,
+  recoverPasswordSuccessfulResponse,
+} from &#x27;./swagger/recover-password&#x27;;
+import {
+  resetPasswordCorrectPayload,
+  resetPasswordDescription,
+  resetPasswordSuccessfulResponse,
+  resetPasswordUnauthorizedResponse,
+} from &#x27;./swagger/reset-password&#x27;;
+
+@Controller(&#x27;auth&#x27;)
+export class AuthController {
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
+
+  @ApiOperation(signUpDescription)
+  @ApiResponse(signUpSuccessfulResponse)
+  @ApiResponse(signUpBadRequestResponse)
+  @ApiBody(signUpCorrectPayload)
+  @Post(&#x27;sign-up&#x27;)
+  async signUp(@Body() body: CreateUserDto): Promise&lt;{
+    error: { code: string; detail: string };
+    resource: Partial&lt;User&gt;;
+  }&gt; {
+    const { resource } &#x3D; await this.authService.signUp(body);
+
+    return { error: null, resource };
+  }
+
+  @ApiOperation(signInDescription)
+  @ApiResponse(signInSuccessfulResponse)
+  @ApiResponse(signInUnauthorizedResponse)
+  @ApiBody(signInCorrectPayload)
+  @UseGuards(LocalAuthGuard)
+  @Post(&#x27;sign-in&#x27;)
+  async signIn(
+    @Request() req: RequestType &amp; { user: User },
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { resource } &#x3D; await this.authService.signIn(req.user);
+    const { refreshToken, ...rest } &#x3D; resource;
+    response.cookie(&#x27;refreshToken&#x27;, refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;,
+      sameSite: &#x27;strict&#x27;,
+      domain: this.configService.get(&#x27;FRONTEND_DOMAIN&#x27;),
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+    });
+    response.status(202).json({ error: null, resource: rest });
+  }
+
+  @ApiOperation(refreshTokenDescription)
+  @ApiResponse(refreshTokenSuccessfulResponse)
+  @ApiResponse(refreshTokenUnauthorizedResponse)
+  @UseGuards(JwtRefreshAuthGuard)
+  @Get(&#x27;refresh-token&#x27;)
+  async refreshToken(
+    @Request()
+    req: RequestType &amp; {
+      user: { userId: string; clientRefreshToken: string };
+    } &amp; {
+      error: { code: string; detail: string };
+    },
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { user } &#x3D; req;
+    response.clearCookie(&#x27;refreshToken&#x27;, {
+      httpOnly: true,
+      sameSite: &#x27;none&#x27;,
+      secure: true,
+    });
+    if (req.error) {
+      // if reuse detected
+      return response.status(401).json(req.error);
+    }
+    const { resource } &#x3D; await this.authService.refreshToken(
+      user.userId,
+      user.clientRefreshToken,
+    );
+    const { refreshToken, ...rest } &#x3D; resource;
+    response.cookie(&#x27;refreshToken&#x27;, refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;,
+      sameSite: &#x27;strict&#x27;,
+      domain: this.configService.get(&#x27;FRONTEND_DOMAIN&#x27;),
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+    });
+    response.status(202).json({ error: null, resource: rest });
+  }
+
+  @Get(&#x27;check-if-logged-in&#x27;)
+  @UseGuards(JwtRefreshAuthGuard)
+  async checkIfLoggedIn(
+    @Request()
+    req: RequestType &amp; {
+      user: { userId: string; clientRefreshToken: string };
+    } &amp; {
+      error: { code: string; detail: string };
+    },
+  ): Promise&lt;{
+    error: { code: string; detail: string } | null;
+    resource: { userId: string } | null;
+  }&gt; {
+    return { error: null, resource: { userId: req.user.userId } };
+  }
+
+  @ApiOperation(recovePasswordDescription)
+  @ApiResponse(recoverPasswordSuccessfulResponse)
+  @ApiResponse(recoverPasswordBadRequest)
+  @Get(&#x27;recover-password&#x27;)
+  async recoverPassword(
+    @Query(&#x27;email&#x27;) email: string,
+    @Res() response: Response,
+  ): Promise&lt;{
+    error: { code: string; detail: string } | null;
+    resource: SendGrid.MailDataRequired;
+  }&gt; {
+    const { statusCode, error, resource } &#x3D;
+      await this.authService.recoverPassword(email);
+    response.status(statusCode).json(error ?? resource);
+    return;
+  }
+
+  @ApiOperation(resetPasswordDescription)
+  @ApiResponse(resetPasswordSuccessfulResponse)
+  @ApiResponse(resetPasswordUnauthorizedResponse)
+  @ApiBody(resetPasswordCorrectPayload)
+  @UseGuards(JwtResetAuthGuard)
+  @Patch(&#x27;reset-password&#x27;)
+  async resetPassword(
+    @Body(&#x27;password&#x27;) password: string,
+    @Query(&#x27;token&#x27;) resetPasswordToken: string,
+    @Request()
+    req: RequestType &amp; { user: { userId: string; resetPasswordToken: string } },
+  ): Promise&lt;{
+    resource: Partial&lt;User&gt; | null;
+  }&gt; {
+    const { user } &#x3D; req;
+    const { resource } &#x3D; await this.authService.resetPassword(
+      user.userId,
+      password,
+      resetPasswordToken,
+    );
+    return { resource };
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'controller';
+            var COMPODOC_CURRENT_PAGE_URL = 'AuthController.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
